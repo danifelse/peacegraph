@@ -1,17 +1,9 @@
-import getData from "@/services/getData";
-import axios from "axios";
+import { getBannerData } from "@/services/getData";
 import { FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { IoMail } from "react-icons/io5";
-export async function getBannerData() {
-  const banner = await getData.banner();
-  console.log(banner.data.data);
-  return banner.data.data;
-}
 
 export default async function Header() {
   const banner = await getBannerData();
-  console.log(banner[0].imageUrl);
   return (
     <header className="mt-5">
       <div className="container mx-auto p-4">
