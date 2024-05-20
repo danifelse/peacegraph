@@ -4,7 +4,6 @@ import { retreiveData } from '@/lib/firebase/services';
 // Handler untuk metode GET
 export async function GET(req: NextRequest) {
     const apiKey = req.headers.get('apiKey');
-    console.log(apiKey)
     const validApiKey = process.env.API_KEY
 
     if (!apiKey || apiKey !== validApiKey) {
