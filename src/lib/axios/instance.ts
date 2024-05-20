@@ -9,7 +9,9 @@ const headers = {
 
 const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-    headers,
+    headers: {
+        "apiKey": process.env.API_KEY,
+    },
     timeout: 60* 1000
 });
 
