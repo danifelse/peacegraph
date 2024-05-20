@@ -1,4 +1,9 @@
-export default function ProductSection() {
+import { getProductsData } from "@/services/getData";
+import { Product } from "@/models/Product";
+import CardProduct from "./CardProduct";
+
+export default async function ProductSection() {
+  const products = await getProductsData();
   return (
     <div className="container px-4 mb-10">
       <div className="flex flex-wrap">
@@ -13,6 +18,13 @@ export default function ProductSection() {
           <p className="absolute top-3 -right-10 text-xl font-extrabold font-mono inline-block bg-pink-400 px-3 py-2  ">
             Our Product
           </p>
+        </div>
+        <div className="w-2/3">
+          <div className="grid grid-cols-3 gap-4">
+            {products.map((product: Product) => (
+              <CardProduct key={product.id} {...product} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
