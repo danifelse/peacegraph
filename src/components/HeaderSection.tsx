@@ -66,7 +66,7 @@ export default function HeaderSection() {
           </li>
         </ul>
       </div>
-      <div className="relative">
+      <div className="relative h-64 md:h-36">
         <div
           className={`p-4 rounded-lg bg-purple-300 dark:bg-gray-800 transition-all duration-300 absolute top-0 left-0 ${
             isOpen === 1
