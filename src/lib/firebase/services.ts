@@ -1,6 +1,7 @@
 import {} from "firebase/app";
 import app from "./init";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, query, addDoc } from "firebase/firestore";
+import { Product } from "@/models/Product";
 
 const firestore = getFirestore(app);
 
@@ -13,4 +14,8 @@ export async function retreiveData(collectionName: string) {
     }));
 
     return data
+}
+
+export async function createProduct(product: Product ) {
+    await addDoc(collection(firestore, "products"), product);
 }
