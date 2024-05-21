@@ -1,13 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [navStyle, setNavStyle] = useState("");
+
+  useEffect(() => {
+    window.onscroll = function () {
+      if (window.scrollY >= 100 && window.scrollY < 300) {
+        setNavStyle("navbar-hide");
+      } else if (window.scrollY >= 300) {
+        setNavStyle("navbar-scrolled");
+      } else {
+        setNavStyle("navbar-show");
+      }
+    };
+  }, []);
 
   return (
-    <nav className=" border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav
+      className={`bg-transparent fixed top-0 left-0 w-full items-center z-10 transition duration-300 ${navStyle}`}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-wrap items-center justify-between p-4">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="/icon/LOGO.png" className="h-12 pt-2" />
         </a>
@@ -38,7 +53,7 @@ export default function Navbar() {
           className={`${isOpen ? "block" : "hidden"} w-full md:block md:w-auto`}
           id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <a
                 href="#"
