@@ -9,3 +9,27 @@
 .active-tabs {
   @apply text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500;
 }
+
+.navbar-hide {
+  @apply -translate-y-full opacity-0 transition-all ease-out duration-500;
+}
+
+.navbar-scrolled {
+  @apply fixed z-50  bg-white bg-opacity-70 translate-y-0 opacity-100 backdrop-blur-sm dark:bg-dark dark:bg-opacity-80;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.nav-link::after {
+  @apply block w-0 h-[2px] mt-1 transition-all ease-out duration-500 bg-primary;
+  content: "";
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  @apply text-primary font-semibold;
+}
