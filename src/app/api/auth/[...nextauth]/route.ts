@@ -4,7 +4,7 @@ import {NextAuthOptions} from "next-auth"
 import NextAuth from "next-auth/next"
 import  CredentialsProvider  from "next-auth/providers/credentials"
 
-const authOptions : NextAuthOptions = {
+export const authOptions : NextAuthOptions = {
     session: {
         strategy: "jwt"
     },
@@ -33,10 +33,10 @@ const authOptions : NextAuthOptions = {
     ], 
     callbacks: {
         jwt: async ({token, account, profile, user}:any) => {
-            if (account?.provider === "Credentials") {
-                token.email = user?.email
-                token.name = user?.name
-                token.role = user?.role
+            if (account?.provider === "credentials") {
+                token.email = user?.email;
+                token.name = user?.name;
+                token.role = user?.role;
                  
             }
             return token
@@ -44,7 +44,6 @@ const authOptions : NextAuthOptions = {
         async session({session, token}:any) {
             if ("email" in token) {
                 session.user.email = token.email
-                
             }
             if ("name" in token) {
                 session.user.name = token.name
