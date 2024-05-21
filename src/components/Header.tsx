@@ -5,7 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 export default async function Header() {
   const banner = await getBannerData();
   return (
-    <header className="mt-20">
+    <header className="mt-20 ">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 ">
         <div className="lg:flex  items-center">
           <div className="lg:w-1/2 w-full lg:px-3 mb-3 lg:mb-0">
@@ -50,7 +50,7 @@ export default async function Header() {
               Hubungi Kami
             </button>
           </div>
-          <div className="lg:w-1/2 w-full rounded-lg overflow-hidden lg:m-5">
+          <div className="lg:w-1/2 w-full rounded-xl lg:rounded-br-[25%] lg:rounded-tr-[15%] lg:rounded-bl-[50%] lg:rounded-tl-[20%] overflow-hidden lg:m-5">
             <img
               src={banner[0].imageUrl}
               alt=""
