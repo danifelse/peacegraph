@@ -13,7 +13,7 @@ export default function SelectOption({
         htmlFor="countries"
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
-        Select an option
+        Select {label}
       </label>
       <select
         id="countries"

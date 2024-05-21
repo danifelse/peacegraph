@@ -1,4 +1,5 @@
 import InputForm from "@/components/Elements/Input";
+import SelectOption from "../Elements/SelectOption";
 export default function FormUser() {
   return (
     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -13,12 +14,18 @@ export default function FormUser() {
             type="text"
             placeholder="Example"
           />
+          <SelectOption
+            label={"Role"}
+            name={"role"}
+            options={["Admin", "Super Admin"]}
+          />
           <InputForm
             label="Email"
             name="name"
             type="email"
             placeholder="Example@gmail.com"
           />
+
           <InputForm
             label="Password"
             name="password"
@@ -31,7 +38,6 @@ export default function FormUser() {
             type="password"
             placeholder="••••••••"
           />
-
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
