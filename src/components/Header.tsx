@@ -5,7 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 export default async function Header() {
   const banner = await getBannerData();
   return (
-    <header className="mt-5">
+    <header className="mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 ">
         <div className="lg:flex  items-center">
           <div className="lg:w-1/2 w-full lg:px-3 mb-3 lg:mb-0">
