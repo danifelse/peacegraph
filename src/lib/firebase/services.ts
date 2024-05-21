@@ -44,3 +44,23 @@ export async function createUser(userData: User): Promise<{ status: number, mess
         return { status: 400, message: "User already exists" };
     }
 }
+
+
+export async function login(email: string) {
+    const userQuery = query(
+        collection(firestore, "users"), where("email", "==", email)
+    );
+    const snapshot = await getDocs(userQuery);
+    const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }))
+
+    if (data) {
+        return data[0];
+    }else{
+        return null;
+    }
+
+}
+
