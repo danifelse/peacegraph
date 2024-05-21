@@ -6,19 +6,9 @@ export async function POST(req: NextRequest) {
     // return NextResponse.json({ status: 200, message:"User Created" });
     try {
         const body = await req.json();
-        console.log(body);
-        if (body) {
-            createUser(body, (status:boolean) => {
-                if (status) {
-                    return NextResponse.json({ status: 200, message:"User Created", data: body });
-                } else {
-                    return NextResponse.json({ status: 401, data: 'Failed to create user' });
-                }
-            }); 
-            return NextResponse.json({ status: 99, message:"falied", data: body });  
-        } else {
-            return NextResponse.json({ status: 404, data: 'Data not found' });
-        }
+        const {status, message} = await createUser(body);
+
+        return NextResponse.json({ status, message });
 
     } catch (error) {
         console.error('Error parsing JSON:', error);
