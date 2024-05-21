@@ -4,8 +4,8 @@ import ProductCarousel from "./ProductCarousel";
 export default async function ProductSection() {
   const products = await getProductsData();
   return (
-    <div className="container px-4 mb-10">
-      <div className="flex  ">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 ">
+      <div className="flex ">
         <div className="md:w-[40%] w-[30%]  lg:px-4 rounded-xl  relative">
           <div className="rounded-xl overflow-hidden h-full  ">
             <img

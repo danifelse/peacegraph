@@ -6,7 +6,7 @@ export default async function Header() {
   const banner = await getBannerData();
   return (
     <header className="mt-5">
-      <div className="container mx-auto p-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 ">
         <div className="lg:flex  items-center">
           <div className="lg:w-1/2 w-full lg:px-3 mb-3 lg:mb-0">
             <h1 className="lg:text-6xl text-2xl py-2 font-extrabold bg-gradient-to-r from-pink-600 to-blue-700 inline-block text-transparent bg-clip-text">
@@ -46,7 +46,7 @@ export default async function Header() {
                 <FaLocationDot className="inline-block h-6 w-6 me-2 group-hover:-translate-y-4 transition-all duration-500" />
               </a>
             </div>
-            <button className="bg-gradient-to-r from-pink-600 to-blue-700 hover:from-pink-800 hover:to-blue-800 text-white font-bold py-2 px-4 rounded mt-5">
+            <button className="bg-gradient-to-r from-pink-600 to-blue-700 hover:from-pink-800 hover:to-blue-800 text-white font-bold py-2 px-4 rounded-full mt-5">
               Hubungi Kami
             </button>
           </div>
