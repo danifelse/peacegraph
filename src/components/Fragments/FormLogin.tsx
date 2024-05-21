@@ -1,19 +1,73 @@
+"use client";
+
+import { signIn } from "next-auth/react";
 import InputForm from "../Elements/Input";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
 
 export default function FormLogin() {
+  const { push } = useRouter();
+  const [message, setMessage] = useState<string>("");
+  const [isloading, setIsloading] = useState<boolean>(false);
+  const callbackUrl: string = "/";
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    setIsloading(true);
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const userData = {
+      email: form.email.value,
+      password: form.password.value,
+    };
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: userData.email,
+        password: userData.password,
+        callbackUrl: callbackUrl,
+      });
+      if (!res?.error) {
+        setIsloading(false);
+        form.reset();
+        push(callbackUrl);
+      } else {
+        setMessage("Error Email or Password is Incorrect");
+        setTimeout(() => {
+          setIsloading(false);
+          setMessage("");
+        }, 2000);
+      }
+    } catch (error) {
+      setMessage("Error Email or Password is Incorrect");
+      setTimeout(() => {
+        setIsloading(false);
+        setIsloading(false);
+        setMessage("");
+      }, 2000);
+    }
+  };
+
   return (
-    <div className="w-full bg-transparent rounded-lg  dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+    <div className="w-full bg-transparent rounded-lg  dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 ">
+      <div className="p-6 space-y-4 md:space-y-6 sm:p-8 relative">
         <div>
+          {message.length > 0 && (
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 w-full rounded-xl absolute -top-10"
+              role="alert"
+            >
+              <span className="block sm:inline">{message}</span>
+            </div>
+          )}
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white mb-2">
             Login
           </h1>
+
           <p className="text-sm font-light text-gray-500 dark:text-gray-400">
             Welcome back, please enter your credentials.
           </p>
         </div>
 
-        <form className="space-y-4 md:space-y-6">
+        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
           <InputForm
             name="email"
             label="Email"
@@ -26,10 +80,13 @@ export default function FormLogin() {
             type="password"
             placeholder="Password"
           />
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-pink-600  to-blue-700 text-white font-bold py-2 px-6 rounded-full"
+          >
+            {isloading ? "Loading..." : "Login"}
+          </button>
         </form>
-        <button className="bg-gradient-to-r from-pink-600 to-blue-700 text-white font-bold py-2 px-6 rounded-full">
-          Login
-        </button>
       </div>
     </div>
   );
