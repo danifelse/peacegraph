@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import HeaderSection from "@/components/HeaderSection";
 import Navbar from "@/components/Navbar";
@@ -10,6 +11,7 @@ export default function Home() {
       <Header />
       <HeaderSection />
       <ProductSection />
+      <Footer />
     </div>
   );
 }
