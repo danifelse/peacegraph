@@ -7,13 +7,11 @@ const getData = {
 
 export async function getBannerData() {
    const banner = await getData.banner();
-   console.log(banner.data.data);
    return banner.data.data;
  }
 
  export async function getProductsData() {
    const products = await getData.products();
-   console.log(products.data.data);
    return products.data.data;
  }
 
