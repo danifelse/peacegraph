@@ -1,9 +1,13 @@
+"use client";
+import { usePathname } from "next/navigation";
 import { AiFillProduct } from "react-icons/ai";
 import { HiUsers } from "react-icons/hi";
 import { MdDashboard, MdMessage } from "react-icons/md";
 import { RiLogoutBoxLine } from "react-icons/ri";
 
 export default function Sidebar() {
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <aside
       id="logo-sidebar"
@@ -15,7 +19,9 @@ export default function Sidebar() {
           <li>
             <a
               href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname === "/dashboard" && "bg-gray-200 dark:bg-gray-700"
+              }`}
             >
               <MdDashboard className="w-6 h-6" />
               <span className="ms-3">Dashboard</span>
@@ -23,8 +29,11 @@ export default function Sidebar() {
           </li>
           <li>
             <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              href="/dashboard/message"
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname === "/dashboard/message" &&
+                "bg-gray-200 dark:bg-gray-700"
+              }`}
             >
               <MdMessage className="w-6 h-6" />
               <span className="flex-1 ms-3 whitespace-nowrap">Message</span>
@@ -35,8 +44,11 @@ export default function Sidebar() {
           </li>
           <li>
             <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              href="/dashboard/users"
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname === "/dashboard/users" &&
+                "bg-gray-200 dark:bg-gray-700"
+              }`}
             >
               <HiUsers className="w-6 h-6" />
               <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
@@ -44,8 +56,11 @@ export default function Sidebar() {
           </li>
           <li>
             <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              href="/dashboard/products"
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname === "/dashboard/products" &&
+                "bg-gray-200 dark:bg-gray-700"
+              }`}
             >
               <AiFillProduct className="w-6 h-6" />
               <span className="flex-1 ms-3 whitespace-nowrap">Products</span>
