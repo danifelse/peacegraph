@@ -1,13 +1,45 @@
+"use client";
+
 import InputForm from "@/components/Elements/Input";
 import SelectOption from "../Elements/SelectOption";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { FormEvent } from "react";
 export default function FormUser() {
+  const { push } = useRouter();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.target as HTMLFormElement;
+    const userData = {
+      name: form.name.value,
+      role: form.role.value,
+      email: form.email.value,
+      password: form.password.value,
+    };
+
+    console.log(userData);
+    const res = await axios.post("/api/user", userData, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        apiKey: process.env.API_KEY?.toString(),
+      },
+    });
+    if (res.status === 200) {
+      form.reset();
+      console.log(res.data);
+      push("/");
+    }
+  };
+
   return (
     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
       <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
           Create an user
         </h1>
-        <form className="space-y-4 md:space-y-6" action="#">
+        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
           <InputForm
             label="Name"
             name="name"
@@ -21,7 +53,7 @@ export default function FormUser() {
           />
           <InputForm
             label="Email"
-            name="name"
+            name="email"
             type="email"
             placeholder="Example@gmail.com"
           />
@@ -34,7 +66,7 @@ export default function FormUser() {
           />
           <InputForm
             label="Confirm password"
-            name="password"
+            name="confirmPassword"
             type="password"
             placeholder="••••••••"
           />
