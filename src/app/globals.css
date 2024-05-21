@@ -33,3 +33,10 @@
 .nav-link.active {
   @apply text-primary font-semibold;
 }
+
+.bg-login {
+  background-image: url("/images/bg-login.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
