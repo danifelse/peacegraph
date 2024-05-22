@@ -15,7 +15,11 @@ export default function DashboardCardProduct({
 }) {
   return (
     <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-3">
-      <img className="rounded-t-lg" src={imageUrl} alt="" />
+      <img
+        className="rounded-t-lg aspect-square object-cover object-center"
+        src={imageUrl}
+        alt=""
+      />
       <div className="md:px-5 px-1 md:py-2 py-1">
         <div className="flex justify-between items-center">
           <div>
