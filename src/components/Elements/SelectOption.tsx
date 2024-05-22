@@ -8,7 +8,7 @@ export default function SelectOption({
   options: string[];
 }) {
   return (
-    <>
+    <div>
       <label
         htmlFor={name}
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -26,6 +26,6 @@ export default function SelectOption({
           </option>
         ))}
       </select>
-    </>
+    </div>
   );
 }
