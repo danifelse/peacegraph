@@ -18,6 +18,16 @@ export async function retreiveData(collectionName: string) {
     return data
 }
 
+export async function retreiveDataBySlug(collectionName: string, slug: string) {
+    const q = query(collection(firestore, collectionName), where("slug", "==", slug));
+    const snapshot = await getDocs(q);
+    const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }));
+    return data[0];
+}
+
 export async function createProduct(product: Product): Promise<boolean> {
     try {
         const q = query(collection(firestore, "products"), where("name", "==", product.name));
