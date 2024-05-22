@@ -11,7 +11,7 @@ export default function Input({
   type: string;
   placeholder: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  defaultValue?: string;
+  defaultValue?: any;
   disabled?: boolean;
   props?: any;
 }) {

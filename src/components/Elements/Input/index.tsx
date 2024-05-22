@@ -16,7 +16,7 @@ export default function InputForm({
   placeholder: string;
   label: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  defaultValue?: string;
+  defaultValue?: any;
   disabled?: boolean;
   props?: any;
 }) {
