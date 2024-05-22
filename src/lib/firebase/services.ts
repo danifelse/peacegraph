@@ -1,6 +1,6 @@
 import {} from "firebase/app";
 import app from "./init";
-import { getFirestore, collection, getDocs, query, addDoc, where } from "firebase/firestore";
+import { getFirestore, collection, getDocs, query, addDoc, where, doc, updateDoc } from "firebase/firestore";
 import { Product } from "@/models/Product";
 import bcrypt from "bcrypt";
 import { User } from "@/models/User";
@@ -49,7 +49,26 @@ export async function createProduct(product: Product): Promise<boolean> {
     }
 }
 
-
+export async function updateProduct(slug: string,product: Product): Promise<boolean> {
+    try {
+        const q = query(collection(firestore, "products"), where("slug", "==", slug));
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        if (data.length > 0) {
+            const docRef = doc(firestore, "products", data[0].id);
+            await updateDoc(docRef, product);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error updating product:', error);
+        return false;
+    }
+}
 
 export async function createUser(userData: User): Promise<boolean > {
     const userQuery = query(
