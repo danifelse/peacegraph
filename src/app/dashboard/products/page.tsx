@@ -2,6 +2,7 @@
 import DashboardCardProduct from "@/components/DashboardCardProduct";
 import { Product } from "@/models/Product";
 import { getData } from "@/services/getDataClient";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
@@ -22,12 +23,14 @@ export default function Products() {
               {products.length} Products are available
             </p>
           </div>
-          <button className="bg-transparent  hover:bg-blue-500 text-white font-semibold hover:text-blue-700 hover:border-blue-800 py-2 px-4 border-2 border-white hover:border-transparent rounded-xl flex items-center gap-2">
-            <span>
-              <IoMdAddCircleOutline className="h-6 w-6" />
-            </span>
-            Add Product
-          </button>
+          <Link href="/dashboard/products/create">
+            <button className="bg-transparent  hover:bg-pink-500 text-white font-semibold hover:text-pink-700 hover:border-pink-800 py-2 px-4 border-2 border-white hover:border-transparent rounded-xl flex items-center gap-2">
+              <span>
+                <IoMdAddCircleOutline className="h-6 w-6" />
+              </span>
+              Add Product
+            </button>
+          </Link>
         </div>
       </div>
       <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
