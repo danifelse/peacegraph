@@ -12,14 +12,14 @@ import "react-toastify/dist/ReactToastify.css";
 export default function CreateProduct() {
   const { push } = useRouter();
   const handleCreate = async (data: Product) => {
-    try {
-      const res = await postData("/api/products", data);
-      toast.success("Product created successfully");
-      setTimeout(() => push("/dashboard/products"), 2000);
-      return res;
-    } catch (error) {
-      toast.error("Failed to create product");
-      return error;
+    const res = await postData("/api/products", data);
+    if (res.status === 200) {
+      toast.success(res.data.message);
+      setTimeout(() => {
+        push("/dashboard/products");
+      }, 2000);
+    } else {
+      toast.error(res.response.data.error);
     }
   };
   return (

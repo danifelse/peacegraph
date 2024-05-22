@@ -2,7 +2,6 @@
 
 import InputForm from "@/components/Elements/Input";
 import SelectOption from "@/components/Elements/SelectOption";
-import { Product } from "@/models/Product";
 import { useState } from "react";
 
 export default function FormProduct({
@@ -71,12 +70,8 @@ export default function FormProduct({
         return;
       }
     }
-    console.log(data);
 
     const res = await onSubmitForm(data);
-    console.log(res.message);
-    const resMassage = res.message;
-    setMessage(resMassage);
     setIsloading(false);
     setImageLoading(false);
   };
