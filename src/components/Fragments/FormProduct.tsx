@@ -13,6 +13,7 @@ export default function FormProduct({
   const [message, setMessage] = useState("");
   const [isloading, setIsloading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
+  const [slug, setSlug] = useState("");
 
   const handleImageUrl = () => {
     setImageLoading(true);
@@ -22,6 +23,11 @@ export default function FormProduct({
     if (url) {
       setImageUrl(url);
     }
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setSlug(name.replace(/ /g, "-").toLowerCase());
   };
 
   const handleImageError = () => {
@@ -71,7 +77,7 @@ export default function FormProduct({
       }
     }
 
-    const res = await onSubmitForm(data);
+    await onSubmitForm(data);
     setIsloading(false);
     setImageLoading(false);
   };
@@ -91,6 +97,15 @@ export default function FormProduct({
               placeholder="Example : Stand Acrilic"
               name="name"
               type="text"
+              onChange={(e) => handleNameChange(e)}
+            />
+            <InputForm
+              label="Slug"
+              placeholder="stand-acrilic"
+              name="slug"
+              type="text"
+              defaultValue={slug}
+              disabled={true}
             />
             <InputForm
               label="Description"
@@ -141,7 +156,7 @@ export default function FormProduct({
               {message && <p className="text-red-500 text-sm">{message}</p>}
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
               >
                 {isloading ? "Loading..." : "Create"}
               </button>
