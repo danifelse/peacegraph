@@ -55,7 +55,19 @@ export default function FormProduct({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsloading(true);
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
     const category = e.currentTarget.category.value;
+    for (const key in data) {
+      if (!data[key]) {
+        setMessage(`Please fill in the ${key} field`);
+        setTimeout(() => {
+          setIsloading(false);
+          setMessage("");
+        }, 2000);
+        return;
+      }
+    }
     if (!category) {
       setMessage("Please select a category");
       setTimeout(() => {
@@ -72,22 +84,17 @@ export default function FormProduct({
       }, 2000);
       return;
     }
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-    data.category = category;
-    data.imageUrl = imageUrl;
-    data.slug = slug;
-    for (const key in data) {
-      if (!data[key]) {
-        setMessage(`Please fill in the ${key} field`);
-        setTimeout(() => {
-          setIsloading(false);
-          setMessage("");
-        }, 2000);
-        return;
-      }
-    }
-    await onSubmitForm(data);
+
+    const product = {
+      name: data.name,
+      slug: data.slug,
+      description: data.description,
+      price: Number(data.price),
+      imageUrl: imageUrl,
+      category: category,
+    };
+
+    await onSubmitForm(product);
     setIsloading(false);
     setImageLoading(false);
   };
