@@ -1,5 +1,5 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
@@ -93,13 +93,13 @@ export default function NavbarDashboard() {
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <button
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                       role="menuitem"
+                      onClick={() => signOut({ callbackUrl: "/auth/login" })}
                     >
                       Sign out
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>

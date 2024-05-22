@@ -1,4 +1,5 @@
 "use client";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillProduct } from "react-icons/ai";
@@ -67,13 +68,13 @@ export default function Sidebar() {
             </Link>
           </li>
           <li>
-            <a
-              href="#"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            <div
+              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
+              onClick={() => signOut({ callbackUrl: "/auth/login" })}
             >
               <RiLogoutBoxLine className="w-6 h-6" />
               <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
-            </a>
+            </div>
           </li>
         </ul>
       </div>
