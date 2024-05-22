@@ -41,26 +41,22 @@ export async function createProduct(product: Product): Promise<boolean> {
 
 
 
-export async function createUser(userData: User): Promise<{ status: number, message: string }> {
+export async function createUser(userData: User): Promise<boolean > {
     const userQuery = query(
         collection(firestore, "users"), where("email", "==", userData.email)
     );
-
     const snapshot = await getDocs(userQuery);
     userData.password = await bcrypt.hash(userData.password, 10);
-
     if (snapshot.empty) {
         try {
             await addDoc(collection(firestore, "users"), userData);
-            console.log("Document successfully written!");
-            return { status: 200, message: "User created" };
+            return true;
         } catch (error) {
-            console.error("Error writing document: ", error);
-            return { status: 400, message: "Error creating user" };
+            return false;
         }
     } else {
         console.log("User already exists");
-        return { status: 400, message: "User already exists" };
+        return false;
     }
 }
 
