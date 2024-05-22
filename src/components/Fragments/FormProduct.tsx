@@ -2,11 +2,14 @@
 
 import InputForm from "@/components/Elements/Input";
 import SelectOption from "@/components/Elements/SelectOption";
-import { useState } from "react";
+import { Product } from "@/models/Product";
+import { useEffect, useState } from "react";
 
 export default function FormProduct({
+  product = {} as Product,
   onSubmitForm,
 }: {
+  product?: Product;
   onSubmitForm: Function;
 }) {
   const [imageUrl, setImageUrl] = useState("");
@@ -14,6 +17,13 @@ export default function FormProduct({
   const [isloading, setIsloading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [slug, setSlug] = useState("");
+
+  useEffect(() => {
+    if (Object.keys(product).length) {
+      setSlug(product?.name?.replace(/ /g, "-").toLowerCase());
+      setImageUrl(product?.imageUrl);
+    }
+  }, [product]);
 
   const handleImageUrl = () => {
     setImageLoading(true);
@@ -90,6 +100,7 @@ export default function FormProduct({
             <SelectOption
               label="Category"
               name="category"
+              defaultValue={product?.category}
               options={["Printing", "Stickers", "Stamp"]}
             />
             <InputForm
@@ -98,6 +109,7 @@ export default function FormProduct({
               name="name"
               type="text"
               onChange={(e) => handleNameChange(e)}
+              defaultValue={product?.name}
             />
             <InputForm
               label="Slug"
@@ -112,12 +124,14 @@ export default function FormProduct({
               placeholder="Descript the product"
               name="description"
               type="text"
+              defaultValue={product?.description}
             />
             <InputForm
               label="Product Price"
               placeholder="Example : 50000"
               name="price"
               type="number"
+              defaultValue={product?.price}
             />
           </div>
           <div>
@@ -127,6 +141,7 @@ export default function FormProduct({
                 label="Product Image"
                 type="text"
                 placeholder="Example : https://i.pinimg.com/originals/28/ae/06/28ae067a9c96d806ad09fe213fe56f15.jpg"
+                defaultValue={product?.imageUrl}
               />
               <button
                 type="button"
@@ -139,7 +154,9 @@ export default function FormProduct({
             <div className="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3 aspect-square w-1/2 mx-auto relative">
               <img
                 src={
-                  imageUrl.length > 0 ? imageUrl : "/images/img-placeholder.svg"
+                  imageUrl?.length > 0
+                    ? imageUrl
+                    : "/images/img-placeholder.svg"
                 }
                 alt="Image"
                 className="w-full h-full object-cover rounded-lg"
@@ -158,7 +175,9 @@ export default function FormProduct({
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
               >
-                {isloading ? "Loading..." : "Create"}
+                {isloading
+                  ? "Loading..."
+                  : `${product.slug ? "Update" : "Create"}`}
               </button>
             </div>
           </div>
