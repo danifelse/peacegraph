@@ -1,7 +1,18 @@
+import Link from "next/link";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
-export default function DashboardCardProduct({ name, price, imageUrl }) {
+export default function DashboardCardProduct({
+  name,
+  price,
+  imageUrl,
+  id,
+}: {
+  name: string;
+  price: number;
+  imageUrl: string;
+  id: string;
+}) {
   return (
     <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-3">
       <img className="rounded-t-lg" src={imageUrl} alt="" />
@@ -17,9 +28,11 @@ export default function DashboardCardProduct({ name, price, imageUrl }) {
           </div>
 
           <div className="flex items-center  gap-2 group ">
-            <button>
-              <FaRegEdit className="h-7 w-7 text-blue-500 hover:text-blue-700" />
-            </button>
+            <Link href={`/dashboard/products/edit/${id}`}>
+              <button>
+                <FaRegEdit className="h-7 w-7 text-blue-500 hover:text-blue-700" />
+              </button>
+            </Link>
             <button>
               <MdDelete className="h-7 w-7 text-pink-500 hover:text-pink-700" />
             </button>

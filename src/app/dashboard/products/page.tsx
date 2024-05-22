@@ -35,7 +35,7 @@ export default function Products() {
       </div>
       <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
         {products &&
-          products.map((product) => (
+          products.map((product: Product) => (
             <DashboardCardProduct key={product.id} {...product} />
           ))}
       </div>
