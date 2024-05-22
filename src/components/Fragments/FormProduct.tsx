@@ -66,6 +66,7 @@ export default function FormProduct({
     const data = Object.fromEntries(formData.entries());
     data.category = category;
     data.imageUrl = imageUrl;
+    data.slug = slug;
     for (const key in data) {
       if (!data[key]) {
         setMessage(`Please fill in the ${key} field`);
@@ -76,7 +77,6 @@ export default function FormProduct({
         return;
       }
     }
-
     await onSubmitForm(data);
     setIsloading(false);
     setImageLoading(false);
