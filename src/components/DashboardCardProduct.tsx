@@ -7,11 +7,13 @@ export default function DashboardCardProduct({
   price,
   imageUrl,
   id,
+  slug,
 }: {
   name: string;
   price: number;
   imageUrl: string;
   id: string;
+  slug: string;
 }) {
   return (
     <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-3">
@@ -32,7 +34,7 @@ export default function DashboardCardProduct({
           </div>
 
           <div className="flex items-center  gap-2 group ">
-            <Link href={`/dashboard/products/edit/${id}`}>
+            <Link href={`/dashboard/products/edit/${slug}`}>
               <button>
                 <FaRegEdit className="h-7 w-7 text-blue-500 hover:text-blue-700" />
               </button>
