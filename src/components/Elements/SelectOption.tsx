@@ -2,10 +2,12 @@ export default function SelectOption({
   label,
   name,
   options,
+  defaultValue,
 }: {
   label: string;
   name: string;
   options: string[];
+  defaultValue?: string;
 }) {
   return (
     <div>
@@ -21,7 +23,13 @@ export default function SelectOption({
       >
         <option value="">{label}</option>
         {options.map((option, i) => (
-          <option key={i} value={option.toLowerCase().replace(/ /g, "-")}>
+          <option
+            key={i}
+            value={option.toLowerCase().replace(/ /g, "-")}
+            selected={
+              defaultValue === option.toLocaleLowerCase().replace(/ /g, "-")
+            }
+          >
             {option}
           </option>
         ))}
