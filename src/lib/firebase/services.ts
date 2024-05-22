@@ -18,9 +18,28 @@ export async function retreiveData(collectionName: string) {
     return data
 }
 
-export async function createProduct(product: Product ) {
-    await addDoc(collection(firestore, "products"), product);
+export async function createProduct(product: Product): Promise<boolean> {
+    try {
+        const q = query(collection(firestore, "products"), where("name", "==", product.name));
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+
+        if (data.length === 0) {
+            await addDoc(collection(firestore, "products"), product);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error creating product:', error);
+        return false;
+    }
 }
+
+
 
 export async function createUser(userData: User): Promise<{ status: number, message: string }> {
     const userQuery = query(
@@ -44,6 +63,7 @@ export async function createUser(userData: User): Promise<{ status: number, mess
         return { status: 400, message: "User already exists" };
     }
 }
+
 
 
 export async function login(email: string) {
