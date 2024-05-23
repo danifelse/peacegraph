@@ -5,14 +5,14 @@ import InputForm from "../Elements/Input";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function FormLogin() {
   const { push } = useRouter();
   const [message, setMessage] = useState<string>("");
   const [isloading, setIsloading] = useState<boolean>(false);
   const callbackUrl: string = "/dashboard";
-  const { data: session } = useSession();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     setIsloading(true);
     event.preventDefault();
@@ -117,6 +117,18 @@ export default function FormLogin() {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }
