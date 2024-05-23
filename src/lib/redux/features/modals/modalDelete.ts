@@ -3,12 +3,12 @@ import type { RootState } from "../../../redux/store"
 
 interface modalState {
     isOpen: boolean;
-    id?: string
+    slug: string
 }
 
  const initialState: modalState = {
     isOpen: false,
-    id: ""
+    slug: ""
 }
 
 export const modalDeleteSlice = createSlice({
@@ -17,11 +17,11 @@ export const modalDeleteSlice = createSlice({
     reducers: {
         openModal: (state, action: PayloadAction<string>) => {
             state.isOpen = true
-            state.id = action.payload
+            state.slug = action.payload
         },
         closeModal: (state) => {
             state.isOpen = false
-            state.id = ""
+            state.slug = ""
         }
     }
 })
