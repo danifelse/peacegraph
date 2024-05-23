@@ -1,6 +1,6 @@
 import {} from "firebase/app";
 import app from "./init";
-import { getFirestore, collection, getDocs, query, addDoc, where, doc, updateDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, query, addDoc, where, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { Product } from "@/models/Product";
 import bcrypt from "bcrypt";
 import { User } from "@/models/User";
@@ -30,7 +30,7 @@ export async function retreiveDataBySlug(collectionName: string, slug: string) {
 
 export async function createProduct(product: Product): Promise<boolean> {
     try {
-        const q = query(collection(firestore, "products"), where("name", "==", product.name));
+        const q = query(collection(firestore, "products"), where("slug", "==", product.slug));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((doc) => ({
             id: doc.id,
@@ -66,6 +66,28 @@ export async function updateProduct(slug: string,product: Product): Promise<bool
         }
     } catch (error) {
         console.error('Error updating product:', error);
+        return false;
+    }
+}
+
+export async function deleteProduct(slug: string): Promise<boolean> {
+    console.log(`firebase slug : ${slug}`)
+    try {
+        const q = query(collection(firestore, "products"), where("slug", "==", slug));
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        if (data.length > 0) {
+            const docRef = doc(firestore, "products", data[0].id);
+            await deleteDoc(docRef);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error deleting product:', error);
         return false;
     }
 }
