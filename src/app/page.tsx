@@ -2,8 +2,8 @@ import Footer from "@/components/Layouts/Footer";
 import Header from "@/components/Fragments/Header";
 import Navbar from "@/components/Layouts/Navbar";
 import TimeLineOrder from "@/components/Fragments/TimeLineOrder";
-import CategorySection from "@/components/Fragments/CategorySection";
 import HeaderSection from "@/components/Fragments/HeaderSection";
+import ProductSection from "@/components/Fragments/ProductSection";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       <Navbar />
       <Header />
       <HeaderSection />
-      <CategorySection />
+      <ProductSection />
       <TimeLineOrder />
       <Footer />
     </div>
