@@ -1,5 +1,5 @@
 "use client";
-import FormCategory from "@/components/Fragments/FormCategory";
+import FormCategory from "@/components/Forms/FormCategory";
 import { Category } from "@/models/Category";
 import { getData } from "@/services/getDataClient";
 import { putData } from "@/services/putDataClients";

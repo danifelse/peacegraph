@@ -1,4 +1,4 @@
-import FormLogin from "@/components/Fragments/FormLogin";
+import FormLogin from "@/components/Forms/FormLogin";
 
 export default function Login() {
   return (

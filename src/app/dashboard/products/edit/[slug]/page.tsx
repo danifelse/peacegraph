@@ -1,5 +1,5 @@
 "use client";
-import FormProduct from "@/components/Fragments/FormProduct";
+import FormProduct from "@/components/Forms/FormProduct";
 import { Product } from "@/models/Product";
 import { getData } from "@/services/getDataClient";
 import { putData } from "@/services/putDataClients";

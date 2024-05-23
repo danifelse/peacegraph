@@ -1,6 +1,6 @@
 "use client";
 
-import FormProduct from "@/components/Fragments/FormProduct";
+import FormProduct from "@/components/Forms/FormProduct";
 import { Product } from "@/models/Product";
 import { postData } from "@/services/postDataClient";
 import Link from "next/link";

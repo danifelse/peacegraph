@@ -1,6 +1,6 @@
 "use client";
 
-import FormCategory from "@/components/Fragments/FormCategory";
+import FormCategory from "@/components/Forms/FormCategory";
 import { Category } from "@/models/Category";
 import { postData } from "@/services/postDataClient";
 import Link from "next/link";

@@ -1,4 +1,4 @@
-import FormUser from "@/components/Fragments/FormUser";
+import FormUser from "@/components/Forms/FormUser";
 
 export default function CreateUser() {
   return (
