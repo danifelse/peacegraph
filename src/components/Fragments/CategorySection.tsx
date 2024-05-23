@@ -1,25 +1,55 @@
-import { getProductsData } from "@/services/getData";
+import { Product } from "@/models/Product";
 import ProductCarousel from "./ProductCarousel";
+import { Category } from "@/models/Category";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
-export default async function CategorySection() {
-  const products = await getProductsData();
+export default async function CategorySection({
+  products,
+  category,
+  index,
+}: {
+  products: Product[];
+  category: Category;
+  index: number;
+}) {
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 ">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 my-10">
       <div className="flex ">
-        <div className="md:w-[40%] w-[30%]  lg:px-4 rounded-xl  relative">
+        <div
+          className={`md:w-[40%] w-[30%]  lg:px-4 rounded-xl  relative ${
+            index % 2 ? "order-1" : "order-0"
+          }`}
+        >
           <div className="rounded-xl overflow-hidden h-full  ">
             <img
-              src="https://images.unsplash.com/photo-1617695744007-68ef55752789?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={category.imageUrl}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full aspect-[3/4] object-cover"
             />
           </div>
-          <p className="absolute top-3 -right-10 md:text-xl text-base font-extrabold font-mono inline-block bg-pink-400 md:px-3 md:py-2 p-1 z-10 ">
-            Our Product
-          </p>
+          <div
+            className={`absolute top-3  bg-pink-400 bg-opacity-50 backdrop-blur-sm md:px-3 md:py-2 p-1 z-10 flex items-center gap-2 hover:scale-125 transition duration-300 cursor-pointer ${
+              index % 2 ? "left-0" : "right-0  "
+            }`}
+          >
+            {(index + 1) % 2 ? null : (
+              <FaArrowLeftLong className="text-white" />
+            )}
+            <p className=" text-white  md:text-xl text-base font-extrabold font-mono">
+              {category.name}
+            </p>
+            {(index + 1) % 2 ? (
+              <FaArrowRightLong className="text-white" />
+            ) : null}
+          </div>
         </div>
         <div className="md:w-[60%] w-[70%] ">
-          <ProductCarousel products={products} />
+          <ProductCarousel
+            products={products.filter(
+              (product) => product.category === category.slug
+            )}
+            index={index}
+          />
         </div>
       </div>
     </div>
