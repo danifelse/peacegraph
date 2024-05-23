@@ -20,8 +20,9 @@ export default function DashboardCardProduct({
 }) {
   const dispatch = useAppDispatch();
 
-  const handleDeleteRequest = (id: string) => {
-    dispatch(openModal(id));
+  const handleDeleteRequest = (slug: string) => {
+    console.log(`product slug : ${slug}`);
+    dispatch(openModal(slug));
   };
 
   return (
@@ -48,7 +49,7 @@ export default function DashboardCardProduct({
                 <FaRegEdit className="h-7 w-7 text-blue-500 hover:text-blue-700" />
               </button>
             </Link>
-            <button onClick={() => handleDeleteRequest(id)}>
+            <button onClick={() => handleDeleteRequest(slug)}>
               <MdDelete className="h-7 w-7 text-pink-500 hover:text-pink-700" />
             </button>
           </div>
