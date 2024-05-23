@@ -3,6 +3,7 @@
 import InputForm from "@/components/Elements/Input";
 import SelectOption from "@/components/Elements/SelectOption";
 import { Product } from "@/models/Product";
+import { getData } from "@/services/getDataClient";
 import { useEffect, useState } from "react";
 
 export default function FormProduct({
@@ -17,6 +18,7 @@ export default function FormProduct({
   const [isloading, setIsloading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [slug, setSlug] = useState("");
+  const [categories, setCategories] = useState<Array<string>>([]);
 
   useEffect(() => {
     if (Object.keys(product).length) {
@@ -24,6 +26,21 @@ export default function FormProduct({
       setImageUrl(product?.imageUrl);
     }
   }, [product]);
+
+  useEffect(() => {
+    getCategories().then((res) => setCategories(res));
+  }, []);
+
+  const getCategories = async () => {
+    const data = [];
+    const categoriesData = await getData("/api/categories").then((res) => {
+      return res.data.data;
+    });
+    for (const category of categoriesData) {
+      data.push(category.name);
+    }
+    return data;
+  };
 
   const handleImageUrl = () => {
     setImageLoading(true);
@@ -107,7 +124,7 @@ export default function FormProduct({
               label="Category"
               name="category"
               defaultValue={product?.category}
-              options={["Printing", "Stickers", "Stamp"]}
+              options={categories}
             />
             <InputForm
               label="Product Name"
