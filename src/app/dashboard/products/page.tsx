@@ -7,6 +7,7 @@ import { deleteData } from "@/services/deleteDataClient";
 import { getData } from "@/services/getDataClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,7 +16,9 @@ export default function Products() {
   const modalState = useAppSelector((state) => state.modalDelete);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
     getData("/api/products")
@@ -37,6 +40,17 @@ export default function Products() {
       setFilteredProducts(filtered);
     }
   }, [selectedCategory, products]);
+
+  useEffect(() => {
+    if (search === "") {
+      setSearchedProducts(filteredProducts);
+    } else {
+      const filtered = filteredProducts.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setSearchedProducts(filtered);
+    }
+  }, [search, filteredProducts]);
 
   const getCategories = async () => {
     const data = [];
@@ -60,7 +74,7 @@ export default function Products() {
     }
   };
 
-  const handleFilerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     setSelectedCategory(value);
     if (value === "") {
@@ -70,6 +84,19 @@ export default function Products() {
         product.category.includes(value)
       );
       setFilteredProducts(filtered);
+    }
+  };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearch(value);
+    if (value === "") {
+      setSearchedProducts(filteredProducts);
+    } else {
+      const filtered = filteredProducts.filter((product) =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setSearchedProducts(filtered);
     }
   };
 
@@ -94,14 +121,30 @@ export default function Products() {
         </div>
       </div>
       <div className="mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-        <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 mb-2">
-          <div></div>
+        <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 mb-2 pb-2 border-b-2  border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+          <div>
+            <label htmlFor="search-products" className="sr-only">
+              Search
+            </label>
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <FaSearch />
+              </div>
+              <input
+                type="text"
+                id="search-products"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search by name..."
+                onChange={handleSearch}
+              />
+            </div>
+          </div>
           <div></div>
           <div className="flex items-center gap-2">
             <select
               id="countries"
               className="bg-gray-50 border border-gray-300 text-gray-900  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              onChange={handleFilerChange}
+              onChange={handleFilterChange}
             >
               <option value={""}>All category</option>
               {categories.map((category, i) => (
@@ -115,7 +158,7 @@ export default function Products() {
             </select>
           </div>
         </div>
-        {filteredProducts.length === 0 && (
+        {searchedProducts.length === 0 && (
           <div className="flex items-center justify-center h-60 w-full">
             <p className="text-center text-3xl text-red-500">
               No Products Found
@@ -123,8 +166,8 @@ export default function Products() {
           </div>
         )}
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 ">
-          {filteredProducts &&
-            filteredProducts.map((product: Product) => (
+          {searchedProducts &&
+            searchedProducts.map((product: Product) => (
               <DashboardCardProduct key={product.id} {...product} />
             ))}
         </div>
