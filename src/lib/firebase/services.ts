@@ -115,6 +115,27 @@ export async function createCategory(category: Category): Promise<boolean> {
     }
 }
 
+export async function updateCategory(slug: string,category: Category): Promise<boolean> {
+    try {
+        const q = query(collection(firestore, "categories"), where("slug", "==", slug));
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        if (data.length > 0) {
+            const docRef = doc(firestore, "categories", data[0].id);
+            await updateDoc(docRef, category);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error updating category:', error);
+        return false;
+    }
+}
+
 export async function createUser(userData: User): Promise<boolean > {
     const userQuery = query(
         collection(firestore, "users"), where("email", "==", userData.email)
