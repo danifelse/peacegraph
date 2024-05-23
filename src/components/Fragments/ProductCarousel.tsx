@@ -5,7 +5,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardProduct from "../Cards/CardProduct";
 
-export default function ProductCarousel({ products }: { products: Product[] }) {
+export default function ProductCarousel({
+  products,
+  index,
+}: {
+  products: Product[];
+  index: number;
+}) {
   const settings = {
     className: "center",
     infinite: true,
@@ -14,8 +20,8 @@ export default function ProductCarousel({ products }: { products: Product[] }) {
     speed: 500,
     rows: 2,
     slidesPerRow: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow index={index} />,
+    prevArrow: <PrevArrow index={index} />,
     responsive: [
       {
         breakpoint: 480,
@@ -66,11 +72,16 @@ export default function ProductCarousel({ products }: { products: Product[] }) {
 }
 
 export function NextArrow(props: any) {
-  const { className, style, onClick } = props;
+  const { className, style, onClick, index } = props;
+  console.log(index);
   return (
-    <div className="flex justify-center absolute top-1/2 translate-y-[60%] lg:-left-20 -left-10  z-10 ">
+    <div
+      className={`flex justify-center absolute top-1/2 translate-y-[60%]   z-10 ${
+        index % 2 === 0 ? "lg:-left-20 -left-10 " : "lg:-right-20 -right-10"
+      } `}
+    >
       <button
-        className="bg-pink-500 hover:bg-pink-700 text-white font-bold md:py-2 md:px-4 rounded-full focus:outline-none focus:shadow-outline"
+        className="bg-pink-500 bg-opacity-60 hover:bg-pink-500 text-white font-bold md:py-2 md:px-4 rounded-full focus:outline-none focus:shadow-outline"
         onClick={onClick}
         style={{ ...style }}
       >
@@ -94,11 +105,15 @@ export function NextArrow(props: any) {
 }
 
 export function PrevArrow(props: any) {
-  const { className, style, onClick } = props;
+  const { className, style, onClick, index } = props;
   return (
-    <div className="flex justify-center absolute top-1/2 -translate-y-[60%] lg:-left-20 -left-10  z-10">
+    <div
+      className={`flex justify-center absolute top-1/2 -translate-y-[60%]   z-10 ${
+        index % 2 === 0 ? "lg:-left-20 -left-10 " : "lg:-right-20 -right-10"
+      } `}
+    >
       <button
-        className="bg-pink-500 hover:bg-pink-700 text-white font-bold md:py-2 md:px-4 rounded-full focus:outline-none focus:shadow-outline"
+        className="bg-pink-500 bg-opacity-60 hover:bg-pink-500 text-white font-bold md:py-2 md:px-4 rounded-full focus:outline-none focus:shadow-outline"
         onClick={onClick}
         style={{ ...style }}
       >
