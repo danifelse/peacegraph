@@ -1,3 +1,6 @@
+"use client";
+import { openModal } from "@/lib/redux/features/modals/modalDelete";
+import { useAppDispatch } from "@/lib/redux/hooks";
 import Link from "next/link";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -15,6 +18,12 @@ export default function DashboardCardProduct({
   id: string;
   slug: string;
 }) {
+  const dispatch = useAppDispatch();
+
+  const handleDeleteRequest = (id: string) => {
+    dispatch(openModal(id));
+  };
+
   return (
     <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-3">
       <img
@@ -39,7 +48,7 @@ export default function DashboardCardProduct({
                 <FaRegEdit className="h-7 w-7 text-blue-500 hover:text-blue-700" />
               </button>
             </Link>
-            <button>
+            <button onClick={() => handleDeleteRequest(id)}>
               <MdDelete className="h-7 w-7 text-pink-500 hover:text-pink-700" />
             </button>
           </div>
