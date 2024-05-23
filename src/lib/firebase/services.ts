@@ -4,6 +4,7 @@ import { getFirestore, collection, getDocs, query, addDoc, where, doc, updateDoc
 import { Product } from "@/models/Product";
 import bcrypt from "bcrypt";
 import { User } from "@/models/User";
+import { Category } from "@/models/Category";
 
 const firestore = getFirestore(app);
 
@@ -89,6 +90,28 @@ export async function deleteProduct(slug: string): Promise<boolean> {
     } catch (error) {
         console.error('Error deleting product:', error);
         return false;
+    }
+}
+
+export async function createCategory(category: Category): Promise<boolean> {
+    const q = query(collection(firestore, "categories"),(where("slug", "==", category.slug)));
+    const snapshot = await getDocs(q);
+    const data  = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }))
+
+    if (data.length === 0) {
+        try {
+            await addDoc(collection(firestore, "categories"), category);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    } else {
+        console.log("Category already exists");
+        return false;
+        
     }
 }
 
