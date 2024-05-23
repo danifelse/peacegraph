@@ -1,7 +1,7 @@
 import { getProductsData } from "@/services/getData";
 import ProductCarousel from "./ProductCarousel";
 
-export default async function ProductSection() {
+export default async function CategorySection() {
   const products = await getProductsData();
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 ">

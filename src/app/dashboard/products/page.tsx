@@ -1,5 +1,5 @@
 "use client";
-import DashboardCardProduct from "@/components/DashboardCardProduct";
+import DashboardCardProduct from "@/components/Cards/DashboardCardProduct";
 import ModalDelete from "@/components/Modals/ModalDelete";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { Product } from "@/models/Product";

@@ -1,9 +1,9 @@
 "use client";
 import Slider from "react-slick";
-import CardProduct from "./CardProduct";
 import { Product } from "@/models/Product";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import CardProduct from "../Cards/CardProduct";
 
 export default function ProductCarousel({ products }: { products: Product[] }) {
   const settings = {
