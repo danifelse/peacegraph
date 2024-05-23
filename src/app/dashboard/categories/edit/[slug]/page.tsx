@@ -36,7 +36,7 @@ export default function EditCategory({ params }: { params: { slug: string } }) {
       <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 flex items-center justify-between">
         <h1 className="text-xl font-semibold mb-2">Edit category</h1>
         <Link
-          href="/dashboard/categores"
+          href="/dashboard/categories"
           className="text-blue-500 px-3 hover:text-pink-500"
         >
           <span>
