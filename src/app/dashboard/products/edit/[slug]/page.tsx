@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function EditProduct({ params }: { params: { slug: string } }) {
   const { push } = useRouter();
@@ -45,6 +46,18 @@ export default function EditProduct({ params }: { params: { slug: string } }) {
         </Link>
       </div>
       <FormProduct product={product} onSubmitForm={handleUpdate} />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }
