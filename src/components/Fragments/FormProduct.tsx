@@ -87,13 +87,12 @@ export default function FormProduct({
 
     const product = {
       name: data.name,
-      slug: data.slug,
+      slug: slug,
       description: data.description,
       price: Number(data.price),
       imageUrl: imageUrl,
       category: category,
     };
-
     await onSubmitForm(product);
     setIsloading(false);
     setImageLoading(false);
