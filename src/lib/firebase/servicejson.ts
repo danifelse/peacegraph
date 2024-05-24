@@ -18,6 +18,15 @@ export async function getJSON(collectionName: string) {
     return data[0];
 }
 
+export async function getCollectionData(collectionName: string) {
+    const snapshot = await getDocs(collection(firestore, collectionName));
+    const data : Data[] = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }));
+    return data;
+}
+
 export async function updateJSON(collectionName: string,slug: string, newData: Data) {
     try {
         const q = query(collection(firestore, collectionName), where("slug", "==", slug));
