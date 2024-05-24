@@ -14,6 +14,8 @@ export default function ProductCarousel({
 }) {
   const settings = {
     className: "center",
+    autoplay: true,
+    autoplaySpeed: 2000,
     infinite: true,
     slidesToShow: 3,
     dots: false,
