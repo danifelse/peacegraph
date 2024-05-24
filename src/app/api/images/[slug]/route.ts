@@ -1,13 +1,7 @@
 import { getJSON } from "@/lib/firebase/servicejson";
+import { ImageData } from "@/models/ImageData";
 import { NextRequest, NextResponse } from "next/server";
 
-interface ImageData {
-    id: string;
-    slug: string;
-    title: string;
-    subtitle: string;
-     desc: string
-}
 
 export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
     const apiKey = req.headers.get('apiKey');
