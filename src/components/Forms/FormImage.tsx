@@ -80,7 +80,7 @@ export default function FormImage({
       <form onSubmit={handleSubmit}>
         <div className="lg:grid grid-cols-2 gap-4 lg:px-10">
           <div className="  space-y-2 md:space-y-4">
-            <input type="text" name="id" defaultValue={image?.slug} hidden />
+            <input type="text" name="slug" defaultValue={image?.slug} hidden />
             <InputForm
               label="Title"
               placeholder="Example : Stand Acrilic"
