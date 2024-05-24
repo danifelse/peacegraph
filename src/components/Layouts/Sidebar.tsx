@@ -3,6 +3,7 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillProduct } from "react-icons/ai";
+import { BsImages } from "react-icons/bs";
 import { FaTags } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi";
 import { MdDashboard, MdMessage } from "react-icons/md";
@@ -78,6 +79,18 @@ export default function Sidebar() {
             >
               <FaTags className="w-6 h-6" />
               <span className="flex-1 ms-3 whitespace-nowrap">Categories</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/dashboard/images"
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname.startsWith("/dashboard/images") &&
+                "bg-gray-200 dark:bg-gray-700"
+              }`}
+            >
+              <BsImages className="w-6 h-6" />
+              <span className="flex-1 ms-3 whitespace-nowrap">Images</span>
             </Link>
           </li>
           <li>
