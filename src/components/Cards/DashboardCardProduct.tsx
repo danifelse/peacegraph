@@ -15,7 +15,6 @@ export default function DashboardCardProduct({
   name: string;
   price: number;
   imageUrl: string;
-  id: string;
   slug: string;
 }) {
   const dispatch = useAppDispatch();

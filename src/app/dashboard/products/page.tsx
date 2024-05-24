@@ -29,7 +29,6 @@ export default function Products() {
   useEffect(() => {
     getCategories().then((res) => setCategories(res));
   }, []);
-
   useEffect(() => {
     if (selectedCategory === "") {
       setFilteredProducts(products);
@@ -62,6 +61,7 @@ export default function Products() {
     }
     return data;
   };
+  console.log(searchedProducts);
 
   const deleteProduct = async (slug: string) => {
     console.log(`page product slug : ${slug}`);
@@ -107,7 +107,7 @@ export default function Products() {
           <div>
             <h1 className="text-white text-5xl mb-2">Products</h1>
             <p className="text-white  mb-1">
-              {products.length} Products are available
+              {searchedProducts.length} Products are available
             </p>
           </div>
           <Link href="/dashboard/products/create">
@@ -168,7 +168,7 @@ export default function Products() {
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 ">
           {searchedProducts &&
             searchedProducts.map((product: Product) => (
-              <DashboardCardProduct key={product.id} {...product} />
+              <DashboardCardProduct key={product.slug} {...product} />
             ))}
         </div>
       </div>
