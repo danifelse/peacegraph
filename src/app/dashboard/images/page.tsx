@@ -1,5 +1,6 @@
 "use client";
 import ModalDelete from "@/components/Modals/ModalDelete";
+import ImagesTable from "@/components/Tables/ImagesTable";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { ImageData } from "@/models/ImageData";
 import { deleteData } from "@/services/deleteDataClient";
@@ -14,14 +15,14 @@ export default function Images() {
   const modalState = useAppSelector((state) => state.modalDelete);
   const [images, setImages] = useState<ImageData[]>([]);
   useEffect(() => {
-    getData("/api/categories")
+    getData("/api/images")
       .then((res) => setImages(res.data.data))
       .catch((err) => console.log(err));
   }, []);
 
   const deleteImage = async (slug: string) => {
     console.log(`page product slug : ${slug}`);
-    const res = await deleteData(`/api/categories/${slug}`);
+    const res = await deleteData(`/api/images")/${slug}`);
     if (res.status === 200) {
       toast.success(res.data.message);
       setImages(images.filter((image) => image.slug !== slug));
@@ -42,7 +43,9 @@ export default function Images() {
           </div>
         </div>
       </div>
-      <div className=" mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"></div>
+      <div className=" mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+        <ImagesTable images={images} />
+      </div>
       <ModalDelete modalState={modalState} handleConfirm={deleteImage} />
       <ToastContainer
         position="top-center"
