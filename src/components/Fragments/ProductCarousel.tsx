@@ -65,7 +65,7 @@ export default function ProductCarousel({
   return (
     <Slider {...settings} className="w-full h-full pl-4 ">
       {products.map((product: Product) => (
-        <CardProduct key={product.id} {...product} />
+        <CardProduct key={product.slug} {...product} />
       ))}
     </Slider>
   );
@@ -73,7 +73,6 @@ export default function ProductCarousel({
 
 export function NextArrow(props: any) {
   const { className, style, onClick, index } = props;
-  console.log(index);
   return (
     <div
       className={`flex justify-center absolute top-1/2 translate-y-[60%]   z-10 ${
