@@ -17,3 +17,24 @@ export async function getJSON(collectionName: string) {
     }));
     return data[0];
 }
+
+export async function updateJSON(collectionName: string,slug: string, newData: Data) {
+    try {
+        const q = query(collection(firestore, collectionName), where("slug", "==", slug));
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        if (data.length > 0) {
+            const docRef = doc(firestore, collectionName, data[0].id);
+            await updateDoc(docRef, newData);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error updating product:', error);
+        return false;
+    }
+}
