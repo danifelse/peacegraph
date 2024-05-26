@@ -1,7 +1,11 @@
-import { createCollectionData, getCollectionData, getJSON, updateJSON } from "@/lib/firebase/servicejson";
 import { createCategory, retreiveData } from "@/lib/firebase/services";
 import { Category } from "@/models/Category";
 import { NextRequest, NextResponse } from "next/server";
+import fsPromises from 'fs/promises';
+import path from 'path';
+
+
+const dataFilePath = path.join(process.cwd(), '/src/data/categories.json');
 
 
 export async function GET(req: NextRequest, ) {
@@ -12,8 +16,8 @@ export async function GET(req: NextRequest, ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await getJSON("categoriesjson");
-        const categoriesData : Category[] = JSON.parse(data.categoriesData);
+        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
+        const categoriesData : Category[] = JSON.parse(data);
         
         if (!categoriesData) {
             return NextResponse.json({ error: 'Images not found' }, { status: 404 });
@@ -35,14 +39,19 @@ export async function POST(req: NextRequest  ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await getJSON("categoriesjson");
-        const categoriesData : Category[] = JSON.parse(data.categoriesData);
+        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
+        const categoriesData : Category[] = JSON.parse(data);
         const newData = await req.json();
+
+        const isExist = categoriesData.find((category: Category) => category.slug === newData.slug);
+        if (isExist) {
+            return NextResponse.json({ error: 'category already exists' }, { status: 409 });
+        }
         
         categoriesData.push(newData);
-        data.categoriesData = JSON.stringify(categoriesData);
+        const updatedData = JSON.stringify(categoriesData);
         if (newData) {
-            await updateJSON("categoriesjson", "categories" , data );
+            await fsPromises.writeFile(dataFilePath, updatedData);
             return NextResponse.json({ status: 200, message: `Success Create ${newData.name} category` , data: newData });
         }
 
@@ -55,7 +64,7 @@ export async function POST(req: NextRequest  ) {
 }
 
 
-//GET CATEGORY OLD NORMAL LOGIC
+//USING FIRESTORE
 
 // export async function GET(req: NextRequest){
 //     const apiKey = req.headers.get('apiKey');
