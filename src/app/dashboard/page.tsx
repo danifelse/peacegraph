@@ -3,8 +3,15 @@ import { useSession } from "next-auth/react";
 import { FaUserCheck } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 
+interface User {
+  name: string;
+  role: string;
+  email: string;
+}
+
 export default function Dashboard() {
   const { data: session } = useSession();
+  console.log(session);
   return (
     <div className="p-4 sm:ml-64">
       <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
@@ -16,6 +23,7 @@ export default function Dashboard() {
             <span className="inline-block me-1">
               <FaUserCheck />
             </span>
+
             {session?.user?.role}
           </p>
           <p className="text-white  mb-1">

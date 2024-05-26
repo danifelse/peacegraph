@@ -1,10 +1,10 @@
 import { login } from "@/lib/firebase/services"
 import { compare } from "bcrypt"
 import {NextAuthOptions} from "next-auth"
-import NextAuth from "next-auth/next"
+import NextAuth from "next-auth"
 import  CredentialsProvider  from "next-auth/providers/credentials"
 
-export const authOptions : NextAuthOptions = {
+const authOptions : NextAuthOptions = {
     session: {
         strategy: "jwt"
     },
@@ -32,7 +32,7 @@ export const authOptions : NextAuthOptions = {
         })
     ], 
     callbacks: {
-        jwt: async ({token, account, profile, user}:any) => {
+        jwt: async ({token, account, user}:any) => {
             if (account?.provider === "credentials") {
                 token.email = user?.email;
                 token.name = user?.name;
