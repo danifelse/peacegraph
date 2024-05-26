@@ -39,17 +39,12 @@ export default function UsersTable({ users }: { users: User[] }) {
               <td className="px-6 py-4">{user?.role}</td>
               <td className="px-6 py-4">
                 <div className="flex space-x-2 items-center">
-                  <Link
-                    href={`/dashboard/users/edit/${user?.id}`}
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline "
-                  >
-                    <FaRegEdit className="w-5 h-5" />
-                  </Link>
                   <button
-                    className="font-medium text-red-600 dark:text-blue-500 hover:underline "
+                    className="font-medium text-red-600 dark:text-blue-500 hover:underline flex items-center gap-1"
                     onClick={() => dispatch(openModal(user?.id))}
                   >
-                    <MdOutlineDeleteOutline className="w-6 h-6" />
+                    <MdOutlineDeleteOutline className="w-6 h-6" />{" "}
+                    <span>Delete</span>
                   </button>
                 </div>
               </td>
