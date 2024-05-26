@@ -177,6 +177,18 @@ export async function createUser(userData: User): Promise<boolean > {
 }
 
 
+export async function deleteUser(id: string): Promise<boolean> {
+    const q = query(collection(firestore, "users"), where("id", "==", id));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+        const docRef = doc(firestore, "users", snapshot.docs[0].id);
+        await deleteDoc(docRef);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 export async function login(email: string) {
     const userQuery = query(
