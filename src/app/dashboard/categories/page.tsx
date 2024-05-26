@@ -1,4 +1,5 @@
 "use client";
+import SkeletonList from "@/components/Fragments/SkeletonList";
 import ModalDelete from "@/components/Modals/ModalDelete";
 import CategoriesTable from "@/components/Tables/CategoriesTable";
 import { useAppSelector } from "@/lib/redux/hooks";
@@ -7,6 +8,7 @@ import { deleteData } from "@/services/deleteDataClient";
 import { getData } from "@/services/getDataClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,9 +18,11 @@ export default function Categories() {
 
   const [categories, setCategories] = useState<Category[]>([]);
   useEffect(() => {
-    getData("/api/categories")
-      .then((res) => setCategories(res.data.data))
-      .catch((err) => console.log(err));
+    setTimeout(() => {
+      getData("/api/categories")
+        .then((res) => setCategories(res.data.data))
+        .catch((err) => console.log(err));
+    }, 300);
   }, []);
 
   const deleteCategory = async (slug: string) => {
@@ -38,9 +42,16 @@ export default function Categories() {
         <div className="bg-blue-500 px-10 py-5 rounded-xl flex items-center justify-between">
           <div>
             <h1 className="text-white text-5xl mb-2">Categories</h1>
-            <p className="text-white  mb-1">
-              {categories.length} Categories are available
-            </p>
+            {categories.length > 0 ? (
+              <p className="text-white  mb-1">
+                {categories.length} Categories are available
+              </p>
+            ) : (
+              <div className="flex items-center gap-2">
+                <AiOutlineLoading3Quarters className="text-white animate-spin" />
+                <span className="text-white">Loading...</span>
+              </div>
+            )}
           </div>
           <Link href="/dashboard/categories/create">
             <button className="bg-transparent  hover:bg-blue-500 text-white font-semibold hover:text-blue-700 hover:bg-white hover:border-blue-800 py-2 px-4 border-2 border-white hover:border-transparent rounded-xl flex items-center gap-2">
@@ -53,7 +64,11 @@ export default function Categories() {
         </div>
       </div>
       <div className=" mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-        <CategoriesTable categories={categories} />
+        {categories.length > 0 ? (
+          <CategoriesTable categories={categories} />
+        ) : (
+          <SkeletonList color="blue" />
+        )}
       </div>
       <ModalDelete modalState={modalState} handleConfirm={deleteCategory} />
       <ToastContainer
