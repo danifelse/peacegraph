@@ -14,11 +14,14 @@ export default function FormUser() {
     setIsloading(true);
     const form = event.target as HTMLFormElement;
     const userData = {
-      name: form.name.value,
-      role: form.role.value,
+      name: form.name.valueOf,
+      role: "",
       email: form.email.value,
       password: form.password.value,
     };
+
+    const selectedRole = document.getElementById("role") as HTMLInputElement;
+    userData.role = selectedRole.value;
 
     if (!userData.role) {
       setMessage("Please select a role");
@@ -47,12 +50,11 @@ export default function FormUser() {
       return;
     }
 
-    console.log(userData);
     const res = await axios.post("/api/user", userData, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        apiKey: process.env.API_KEY?.toString(),
+        apiKey: process.env.NEXT_PUBLIC_KEY?.toString(),
       },
     });
     if (res.data.status === 200) {
@@ -116,6 +118,7 @@ export default function FormUser() {
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            disabled={isloading}
           >
             {isloading ? "Loading..." : "Create User"}
           </button>
