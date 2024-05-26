@@ -25,13 +25,13 @@ export default function BannerProducts() {
   return (
     <div className="mt-20">
       <div className="w-full">
-        <div className="w-fulll g:mb-20 md:mb-10 mb-6  overflow-hidden p-0 lg:aspect-[3/1] md:aspect-[9/4] aspect-[9/5] h-full ">
+        <div className="w-fulll g:mb-20 md:mb-10 mb-6  overflow-hidden p-0 lg:aspect-[3/1] md:aspect-[9/4] aspect-[9/5] h-full relative ">
           <img
             src={image[0]?.imageUrl}
             alt="banner-products"
             className="w-full"
           />
-          <div className="absolute top-0 left-0 flex flex-col lg:mt-8 md:mt-6 mt-3 lg:py-20 lg:px-32 md:py-20 md:px-20 p-4 lg:max-w-2xl md:max-w-md max-w-64">
+          <div className="absolute top-0 left-0 flex flex-col lg:py-12 lg:px-20 md:py-12 md:px-20 p-4 lg:max-w-2xl md:max-w-md max-w-64">
             <p className="text-white lg:text-2xl md:text-xl text-base font-light lg:mb-5 mb:2">
               {image[0].subtitle}
             </p>
