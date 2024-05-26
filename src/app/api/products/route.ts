@@ -17,6 +17,7 @@ export async function GET(req: NextRequest, ) {
     try {
         const data  = await fsPromises.readFile(dataFilePath, 'utf8');
         const productsData : Product[] = JSON.parse(data);
+
         
         if (!productsData) {
             return NextResponse.json({ error: 'Images not found' }, { status: 404 });
@@ -32,14 +33,18 @@ export async function GET(req: NextRequest, ) {
 export async function POST(req: NextRequest  ) {
     const apiKey = req.headers.get('apiKey');
     const validApiKey = process.env.API_KEY;
-
+    const newData = await req.json();
     if (!apiKey || apiKey !== validApiKey) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
         const data  = await fsPromises.readFile(dataFilePath, 'utf8');
         const productsData : Product[] = JSON.parse(data);
-        const newData = await req.json();
+        const isExist = productsData.find((product: Product) => product.slug === newData.slug);
+        if (isExist) {
+            return NextResponse.json({ error: `Product name ${newData.name} already exist` }, { status: 409 });
+        }
+
         
         productsData.push(newData);
         const updatedData = JSON.stringify(productsData);

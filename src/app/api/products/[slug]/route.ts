@@ -41,6 +41,11 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
     try {
         const data  = await fsPromises.readFile(dataFilePath, 'utf8');
         const productsData : Product[] = JSON.parse(data);
+        const isExist = productsData.find((product: Product) => product.slug === newData.slug);
+        if (isExist) {
+            return NextResponse.json({ error: `Product name ${newData.name} already exist` }, { status: 409 });
+        }
+
         const product = productsData.find((product: Product) => product.slug === slug);
         if (!product) {
             return NextResponse.json({ error: 'Product not found' }, { status: 404 });
