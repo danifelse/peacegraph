@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createProduct, retreiveData } from '@/lib/firebase/services';
 import { Product } from '@/models/Product';
-import { getJSON, updateJSON } from '@/lib/firebase/servicejson';
 import fsPromises from 'fs/promises';
 import path from 'path';
 
