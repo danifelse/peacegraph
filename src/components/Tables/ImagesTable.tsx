@@ -29,7 +29,7 @@ export default function ImagesTable({ images }: { images: ImageData[] }) {
         <tbody>
           {images.map((image) => (
             <tr
-              key={image.id}
+              key={image.slug}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               <th

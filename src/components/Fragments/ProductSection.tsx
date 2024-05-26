@@ -11,7 +11,7 @@ export default async function ProductSection() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 ">
       {categories.map((category, index) => (
         <CategorySection
-          key={category.id}
+          key={category.slug}
           products={products}
           category={category}
           index={index}
