@@ -1,4 +1,5 @@
 "use client";
+import SkeletonList from "@/components/Fragments/SkeletonList";
 import ModalDelete from "@/components/Modals/ModalDelete";
 import ImagesTable from "@/components/Tables/ImagesTable";
 import { useAppSelector } from "@/lib/redux/hooks";
@@ -7,6 +8,7 @@ import { deleteData } from "@/services/deleteDataClient";
 import { getData } from "@/services/getDataClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,9 +17,11 @@ export default function Images() {
   const modalState = useAppSelector((state) => state.modalDelete);
   const [images, setImages] = useState<ImageData[]>([]);
   useEffect(() => {
-    getData("/api/images")
-      .then((res) => setImages(res.data.data))
-      .catch((err) => console.log(err));
+    setTimeout(() => {
+      getData("/api/images")
+        .then((res) => setImages(res.data.data))
+        .catch((err) => console.log(err));
+    }, 300);
   }, []);
 
   const deleteImage = async (slug: string) => {
@@ -37,14 +41,27 @@ export default function Images() {
         <div className="bg-teal-500 px-10 py-5 rounded-xl flex items-center justify-between">
           <div>
             <h1 className="text-white text-5xl mb-2">Images</h1>
-            <p className="text-white  mb-1">
-              {images.length} Images are available
-            </p>
+            {images.length > 0 ? (
+              <p className="text-white  mb-1">
+                {images.length} Images are available
+              </p>
+            ) : (
+              <div className="flex items-center gap-2">
+                <AiOutlineLoading3Quarters className="text-white animate-spin" />
+                <span className="text-white">Loading...</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
       <div className=" mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-        <ImagesTable images={images} />
+        {images.length > 0 ? (
+          <ImagesTable images={images} />
+        ) : (
+          <div>
+            <SkeletonList color="teal" />
+          </div>
+        )}
       </div>
       <ModalDelete modalState={modalState} handleConfirm={deleteImage} />
       <ToastContainer

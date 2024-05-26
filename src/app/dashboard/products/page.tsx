@@ -1,5 +1,6 @@
 "use client";
 import DashboardCardProduct from "@/components/Cards/DashboardCardProduct";
+import SkeletonCard from "@/components/Fragments/SkeletonCard";
 import ModalDelete from "@/components/Modals/ModalDelete";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { Product } from "@/models/Product";
@@ -7,6 +8,7 @@ import { deleteData } from "@/services/deleteDataClient";
 import { getData } from "@/services/getDataClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,9 +23,11 @@ export default function Products() {
   const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
-    getData("/api/products")
-      .then((res) => setProducts(res.data.data))
-      .catch((err) => console.log(err));
+    setTimeout(() => {
+      getData("/api/products")
+        .then((res) => setProducts(res.data.data))
+        .catch((err) => console.log(err));
+    }, 300);
   }, []);
 
   useEffect(() => {
@@ -106,9 +110,16 @@ export default function Products() {
         <div className="bg-pink-500 px-10 py-5 rounded-xl flex items-center justify-between">
           <div>
             <h1 className="text-white text-5xl mb-2">Products</h1>
-            <p className="text-white  mb-1">
-              {searchedProducts.length} Products are available
-            </p>
+            {products.length > 0 ? (
+              <p className="text-white  mb-1">
+                {searchedProducts.length} Products are available
+              </p>
+            ) : (
+              <div className="flex items-center gap-2">
+                <AiOutlineLoading3Quarters className="text-white animate-spin" />
+                <span className="text-white">Loading...</span>
+              </div>
+            )}
           </div>
           <Link href="/dashboard/products/create">
             <button className="bg-transparent  hover:bg-pink-500 text-white font-semibold hover:text-pink-700 hover:border-pink-800 py-2 px-4 border-2 border-white hover:border-transparent rounded-xl flex items-center gap-2">
@@ -158,11 +169,20 @@ export default function Products() {
             </select>
           </div>
         </div>
-        {searchedProducts.length === 0 && (
+
+        {searchedProducts.length === 0 && products.length !== 0 && (
           <div className="flex items-center justify-center h-60 w-full">
             <p className="text-center text-3xl text-red-500">
               No Products Found
             </p>
+          </div>
+        )}
+        {searchedProducts.length === 0 && products.length === 0 && (
+          <div className="grid lg:grid-cols-4 grid-cols-2 gap-4">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
           </div>
         )}
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 ">
