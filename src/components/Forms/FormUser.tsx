@@ -2,10 +2,10 @@
 
 import InputForm from "@/components/Elements/Input";
 import SelectOption from "../Elements/SelectOption";
-import axios from "axios";
+import uniqid from "uniqid";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-export default function FormUser() {
+export default function FormUser({ onSubmitForm }: { onSubmitForm: Function }) {
   const { push } = useRouter();
   const [message, setMessage] = useState("");
   const [isloading, setIsloading] = useState(false);
@@ -14,14 +14,17 @@ export default function FormUser() {
     setIsloading(true);
     const form = event.target as HTMLFormElement;
     const userData = {
-      name: form.name.valueOf,
+      name: "",
       role: "",
       email: form.email.value,
       password: form.password.value,
+      id: uniqid(),
     };
 
     const selectedRole = document.getElementById("role") as HTMLInputElement;
     userData.role = selectedRole.value;
+    const selectedName = document.getElementById("name") as HTMLInputElement;
+    userData.name = selectedName.value;
 
     if (!userData.role) {
       setMessage("Please select a role");
@@ -50,32 +53,15 @@ export default function FormUser() {
       return;
     }
 
-    const res = await axios.post("/api/user", userData, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        apiKey: process.env.NEXT_PUBLIC_KEY?.toString(),
-      },
-    });
-    if (res.data.status === 200) {
-      form.reset();
-      console.log(res.data);
-      push("/");
-    } else {
-      setMessage(res.data.message);
-      setTimeout(() => {
-        setMessage("");
-        setIsloading(false);
-      }, 2000);
-    }
+    await onSubmitForm(userData);
+    // console.log(userData);
+
+    setIsloading(false);
   };
 
   return (
-    <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-          Create an user
-        </h1>
+    <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3">
+      <div className="p-4 space-y-2 md:space-y-2 sm:p-6">
         {message.length > 0 && (
           <div
             className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
@@ -118,7 +104,7 @@ export default function FormUser() {
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            disabled={isloading}
+            // disabled={isloading}
           >
             {isloading ? "Loading..." : "Create User"}
           </button>
