@@ -65,17 +65,6 @@ export default function User() {
                 <p className="">Unauthorized</p>
               </div>
             )}
-
-            {/* {users.length > 0 && session?.user?.role === "super-admin" ? (
-              <p className="text-white  mb-1">
-                {users.length} Users are available
-              </p>
-            ) : (
-              <div className="flex items-center gap-2">
-                <AiOutlineLoading3Quarters className="text-white animate-spin" />
-                <span className="text-white">Loading...</span>
-              </div>
-            )} */}
           </div>
           {session?.user?.role === "super-admin" && (
             <Link href="/dashboard/users/create">
@@ -90,19 +79,21 @@ export default function User() {
         </div>
       </div>
       <div className=" mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+        {session?.user?.role !== "super-admin" && (
+          <div className="flex gap-2 items-center justify-center p-4  ">
+            <span>
+              <CiLock />
+            </span>
+            <p className="text-gray-500">
+              You do not have permission to manage users. Please contact the
+              super-admin to make changes.
+            </p>
+          </div>
+        )}
         {users.length > 0 && session?.user?.role === "super-admin" ? (
           <UsersTable users={users} />
         ) : (
           <div className="">
-            <div className="flex gap-2 items-center justify-center p-4  ">
-              <span>
-                <CiLock />
-              </span>
-              <p className="text-gray-500">
-                You do not have permission to manage users. Please contact the
-                super-admin to make changes.
-              </p>
-            </div>
             <SkeletonList color="blue" />
           </div>
         )}
