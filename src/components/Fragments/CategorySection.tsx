@@ -3,7 +3,7 @@ import ProductCarousel from "./ProductCarousel";
 import { Category } from "@/models/Category";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
-export default async function CategorySection({
+export default function CategorySection({
   products,
   category,
   index,
