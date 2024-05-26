@@ -1,6 +1,10 @@
-import { getJSON, updateJSON } from "@/lib/firebase/servicejson";
 import { ImageData } from "@/models/ImageData";
 import { NextRequest, NextResponse } from "next/server";
+
+import fsPromises from 'fs/promises';
+import path from 'path';
+
+const dataFilePath = path.join(process.cwd(), '/src/data/images.json');
 
 
 export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
@@ -12,8 +16,8 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     }
     const slug = params.slug;
     try {
-        const data  = await getJSON("images");
-        const imagesData : ImageData[] = JSON.parse(data.imageData);
+        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
+        const imagesData : ImageData[] = JSON.parse(data);
         
         const imageData = imagesData.find((image: ImageData) => image.slug === slug);
 
@@ -37,24 +41,21 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
 
     const slug = params.slug;
     const newData = await req.json();
-    console.log(newData);
-    const data  = await getJSON("images");
-    const imagesData : ImageData[] = JSON.parse(data.imageData);
-
-    const imageData = imagesData.find((image: ImageData) => image.slug === slug);
-    if (!imageData) {
-        return NextResponse.json({ error: 'Image not found' }, { status: 404 });
-    }
-
-    imagesData[imagesData.indexOf(imageData)] = newData;
-    data.imageData = JSON.stringify(imagesData);
     try {
-        const status = await updateJSON("images", "images", data);
-        if (status) {
-            return NextResponse.json({ status: 200, message: 'Image updated successfully', data: newData });
-        } else {
-            return new Response(JSON.stringify({ error: 'Failed to update image' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
+        const imagesData : ImageData[] = JSON.parse(data);
+
+        const imageData = imagesData.find((image: ImageData) => image.slug === slug);
+        if (!imageData) {
+            return NextResponse.json({ error: 'Image not found' }, { status: 404 });
         }
+
+        imagesData[imagesData.indexOf(imageData)] = newData;
+        const updatedImages = JSON.stringify(imagesData);
+
+        await fsPromises.writeFile(dataFilePath, updatedImages);
+        return NextResponse.json({ status: 200, message: 'Image updated successfully', data: newData });
+
     } catch (error) {
         console.error("Error updating data in Firestore", error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

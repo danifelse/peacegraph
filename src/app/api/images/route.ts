@@ -1,12 +1,13 @@
 import { getJSON, updateJSON } from "@/lib/firebase/servicejson";
 import { ImageData } from "@/models/ImageData";
 import { NextRequest, NextResponse } from "next/server";
-import uniqid from 'uniqid';
 
+import fsPromises from 'fs/promises';
+import path from 'path';
 
+const dataFilePath = path.join(process.cwd(), '/src/data/images.json');
 
-// logic ini menggunakan hanya 1 collection di firebase, semua data disimpan dalam 1 field berbentuk string JSON
-// ini dibuat untuk menghemat read documents
+// using json data 
 
 export async function GET(req: NextRequest, ) {
     const apiKey = req.headers.get('apiKey');
@@ -16,8 +17,8 @@ export async function GET(req: NextRequest, ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await getJSON("images");
-        const imagesData : ImageData[] = JSON.parse(data.imageData);
+        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
+        const imagesData : ImageData[] = JSON.parse(data);
         
         if (!imagesData) {
             return NextResponse.json({ error: 'Images not found' }, { status: 404 });
@@ -39,16 +40,15 @@ export async function POST(req: NextRequest  ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await getJSON("images");
+        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
         console.log(data)
-        const imagesData : ImageData[] = JSON.parse(data.imageData);
+        const imagesData : ImageData[] = JSON.parse(data);
         const newData = await req.json();
-        newData.id = uniqid();
         
         if (newData) {
             imagesData.push(newData);
-            data.imageData = JSON.stringify(imagesData);
-            await updateJSON("images", "images" , data );
+            const updatedImages = JSON.stringify(imagesData);
+            await fsPromises.writeFile(dataFilePath, updatedImages);
             return NextResponse.json({ status: 200, message: "Success", data: newData });
         }
 
