@@ -9,7 +9,6 @@ export default function DashboardCardProduct({
   name,
   price,
   imageUrl,
-  id,
   slug,
 }: {
   name: string;
