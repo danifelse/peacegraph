@@ -46,6 +46,10 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
 
         const data  = await fsPromises.readFile(dataFilePath, 'utf8');
         const categoriesData : Category[] = JSON.parse(data);
+        const isExist = categoriesData.find((category: Category) => category.slug === newData.slug);
+        if (isExist) {
+            return NextResponse.json({ error: 'category already exists' }, { status: 409 });
+        }
         const category = categoriesData.find((category: Category) => category.slug === slug);
         if (!category) {
             return NextResponse.json({ error: 'category not found' }, { status: 404 });
