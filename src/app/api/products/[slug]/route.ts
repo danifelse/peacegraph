@@ -44,6 +44,10 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
     if (!product) {
         return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
+    const isExist = productsData.find(product => product.slug === newData.slug);
+    if (isExist) {
+        return NextResponse.json({ error: `Ups, ${newData.name} already exist` }, { status: 409 });
+    }
 
 
     productsData[productsData.indexOf(product)] = newData;
@@ -51,7 +55,7 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
     try {
         const status = await updateJSON("products", data);
         if (status) {
-            return NextResponse.json({ status: 200, message: 'Product updated successfully', data: newData });
+            return NextResponse.json({ status: 200, message: `${newData.name} updated successfully`, data: newData });
         } else {
             return new Response(JSON.stringify({ error: 'Failed to update image' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }
@@ -81,7 +85,7 @@ export async function DELETE (req: NextRequest, { params }: { params: { slug: st
     try {
         const status = await updateJSON( "products", data);
         if (status) {
-            return NextResponse.json({ status: 200, message: 'Product deleted successfully' });
+            return NextResponse.json({ status: 200, message: `${product.name} deleted successfully` });
         } else {
             return new Response(JSON.stringify({ error: 'Failed to delete image' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }

@@ -66,7 +66,7 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
     try {
         const status = await updateJSON( "categories", data);
         if (status) {
-            return NextResponse.json({ status: 200, message: `Category ${newData.name} updated successfully`, data: newData });
+            return NextResponse.json({ status: 200, message: `${newData.name} updated successfully`, data: newData });
         } else {
             return new Response(JSON.stringify({ error: 'Failed to update category' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }

@@ -38,11 +38,16 @@ export async function POST(req: NextRequest  ) {
         const productsData : Product[] = JSON.parse(data.productsData);
         const newData = await req.json();
 
+        const isExist = productsData.find(product => product.slug === newData.slug);
+        if (isExist) {
+            return NextResponse.json({ error: `Ups, ${newData.name} already exist` }, { status: 409 });
+        }
+
         productsData.push(newData);
         data.productsData = JSON.stringify(productsData);
         if (newData) {
             await updateJSON("products" , data );
-            return NextResponse.json({ status: 200, message: "Success", data: newData });
+            return NextResponse.json({ status: 200, message: `${newData.name} created successfully`, data: newData });
         }
 
         return NextResponse.json({ error: 'Data not found' }, { status: 404 });
