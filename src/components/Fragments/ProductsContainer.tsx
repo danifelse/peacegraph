@@ -1,13 +1,13 @@
 "use client";
 import { Category } from "@/models/Category";
 import { Product } from "@/models/Product";
-import Skeleton from "./Skeleton";
 import { useEffect, useState } from "react";
 import CardProduct from "../Cards/CardProduct";
 import SkeletonCard from "./SkeletonCard";
 import { getData } from "@/services/getDataClient";
 import SkeletonList from "./SkeletonList";
 import SearchInput from "../Elements/SearchInput";
+import Pagination from "../Elements/Pagination";
 
 export default function ProductsContainer() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -16,6 +16,11 @@ export default function ProductsContainer() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [search, setSearch] = useState<string>("");
   const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 12;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const totalPages = Math.ceil(searchedProducts.length / itemsPerPage);
 
   useEffect(() => {
     setTimeout(() => {
@@ -151,9 +156,14 @@ export default function ProductsContainer() {
           )}
           <div className="mt-2 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 ">
             {searchedProducts &&
-              searchedProducts.map((product) => (
-                <CardProduct key={product.slug} {...product} />
-              ))}
+              searchedProducts
+                .slice(startIndex, endIndex)
+                .map((product) => (
+                  <CardProduct key={product.slug} {...product} />
+                ))}
+          </div>
+          <div className="mt-10">
+            <Pagination page={page} totalPages={totalPages} setPage={setPage} />
           </div>
         </div>
       </div>
