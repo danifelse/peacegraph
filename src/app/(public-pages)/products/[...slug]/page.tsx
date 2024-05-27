@@ -7,8 +7,9 @@ import SkeletonImages from "@/components/Fragments/SkeletonImages";
 import SkeletonList from "@/components/Fragments/SkeletonList";
 import { useGetData } from "@/lib/swr/hooks";
 import { Product } from "@/models/Product";
+import { Metadata } from "next";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
@@ -32,6 +33,29 @@ export default function DetailProducts({
     productsRel = products.filter((p) => p.category === product.category);
   }
   console.log(productsRel);
+
+  useEffect(() => {
+    if (product) {
+      document.title = `${product?.category
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (char: string) => char.toUpperCase())} - ${
+        product?.name
+      }`;
+      const metaDescription = document.querySelector(
+        'meta[name="description"]'
+      );
+
+      if (metaDescription) {
+        metaDescription.setAttribute("content", product?.description);
+      } else {
+        const newMetaDescription = document.createElement("meta");
+        newMetaDescription.name = "description";
+        newMetaDescription.content = product?.description;
+        document.head.appendChild(newMetaDescription);
+      }
+    }
+  }, [product]);
+
   if (!product) {
     return (
       <div className="mt-28 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
