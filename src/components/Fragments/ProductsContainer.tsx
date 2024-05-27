@@ -8,6 +8,7 @@ import { getData } from "@/services/getDataClient";
 import SkeletonList from "./SkeletonList";
 import SearchInput from "../Elements/SearchInput";
 import Pagination from "../Elements/Pagination";
+import BreadCrumb from "./BreadCrumb";
 
 export default function ProductsContainer() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -129,14 +130,17 @@ export default function ProductsContainer() {
             </div>
           </div>
         </div>
-        <div className="col-span-3 lg:pe-8 ">
-          <div className="md:p-4 md:mt-5 p-2 md:sticky md:top-0 lg:w-[55%] md:w-[40%] md:z-30 relative">
+        <div className="col-span-3 lg:pe-8 relative">
+          <div className="md:p-4 md:mt-5 p-2 md:sticky md:top-0 lg:w-[55%] md:w-[40%] w-[80%] md:z-30 relative">
             <SearchInput
               label="Search Product"
               name="search"
               placeholder="Search Product"
               onChange={handleSearchChange}
             />
+          </div>
+          <div className="md:p-4 md:mt-5 p-2 absolute top-2 right-10 hidden md:block ">
+            <BreadCrumb links={["Products"]} />
           </div>
           {searchedProducts.length === 0 && products.length > 0 && (
             <div className="flex justify-center items-center gap-2 pt-10">
