@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await getJSON("categoriesjson");
+        const data  = await getJSON("categories");
         const categoriesData : Category[] = JSON.parse(data.categoriesData);
 
         if (!categoriesData) {
@@ -35,14 +35,14 @@ export async function POST(req: NextRequest  ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await getJSON("categoriesjson");
+        const data  = await getJSON("categories");
         const categoriesData : Category[] = JSON.parse(data.categoriesData);
         const newData = await req.json();
 
         categoriesData.push(newData);
         data.categoriesData = JSON.stringify(categoriesData);
         if (newData) {
-            await updateJSON("categoriesjson", "categories" , data );
+            await updateJSON("categories" , data );
             return NextResponse.json({ status: 200, message: `Success Create ${newData.name} category` , data: newData });
         }
 

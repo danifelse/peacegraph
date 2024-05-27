@@ -48,7 +48,7 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
     imagesData[imagesData.indexOf(imageData)] = newData;
     data.imageData = JSON.stringify(imagesData);
     try {
-        const status = await updateJSON("images", "images", data);
+        const status = await updateJSON("images", data);
         if (status) {
             return NextResponse.json({ status: 200, message: 'Image updated successfully', data: newData });
         } else {

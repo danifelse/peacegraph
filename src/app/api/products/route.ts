@@ -11,7 +11,7 @@ export async function GET(req: NextRequest, ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await getJSON("productsjson");
+        const data  = await getJSON("products");
         const productsData : Product[] = JSON.parse(data.productsData);
 
         if (!productsData) {
@@ -34,14 +34,14 @@ export async function POST(req: NextRequest  ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await getJSON("productsjson");
+        const data  = await getJSON("products");
         const productsData : Product[] = JSON.parse(data.productsData);
         const newData = await req.json();
 
         productsData.push(newData);
         data.productsData = JSON.stringify(productsData);
         if (newData) {
-            await updateJSON("productsjson", "products" , data );
+            await updateJSON("products" , data );
             return NextResponse.json({ status: 200, message: "Success", data: newData });
         }
 

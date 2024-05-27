@@ -9,8 +9,9 @@ interface Data {
 
 const firestore = getFirestore(app);
 
-export async function getJSON(collectionName: string) {
-    const snapshot = await getDocs(collection(firestore, collectionName));
+export async function getJSON(slug: string) {
+    const q = query(collection(firestore, "datajson"), where("slug", "==", slug));
+    const snapshot = await getDocs(q);
     const data : Data[] = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -19,16 +20,16 @@ export async function getJSON(collectionName: string) {
 }
 
 
-export async function updateJSON(collectionName: string,slug: string, newData: Data) {
+export async function updateJSON(slug: string, newData: Data) {
     try {
-        const q = query(collection(firestore, collectionName), where("slug", "==", slug));
+        const q = query(collection(firestore, "datajson"), where("slug", "==", slug));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
         }));
         if (data.length > 0) {
-            const docRef = doc(firestore, collectionName, data[0].id);
+            const docRef = doc(firestore, "datajson", data[0].id);
             await updateDoc(docRef, newData);
             return true;
         } else {

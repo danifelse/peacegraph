@@ -44,7 +44,7 @@ export async function POST(req: NextRequest  ) {
         if (newData) {
             imagesData.push(newData);
             data.imageData = JSON.stringify(imagesData);
-            await updateJSON("images", "images" , data );
+            await updateJSON("images" , data );
             return NextResponse.json({ status: 200, message: "Success", data: newData });
         }
 
