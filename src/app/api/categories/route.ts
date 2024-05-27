@@ -39,11 +39,16 @@ export async function POST(req: NextRequest  ) {
         const categoriesData : Category[] = JSON.parse(data.categoriesData);
         const newData = await req.json();
 
+        const isExist = categoriesData.find(category => category.slug === newData.slug);
+        if (isExist) {
+            return NextResponse.json({ error: `Ups, ${newData.name} already exist` }, { status: 409 });
+        }
+
         categoriesData.push(newData);
         data.categoriesData = JSON.stringify(categoriesData);
         if (newData) {
             await updateJSON("categories" , data );
-            return NextResponse.json({ status: 200, message: `Success Create ${newData.name} category` , data: newData });
+            return NextResponse.json({ status: 200, message: `${newData.name} created successfully` , data: newData });
         }
 
         return NextResponse.json({ error: 'Data not found' }, { status: 404 });

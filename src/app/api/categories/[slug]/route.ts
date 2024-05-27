@@ -44,6 +44,11 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
     if (!category) {
         return NextResponse.json({ error: 'category not found' }, { status: 404 });
     }
+    const isExist = categoriesData.find(category => category.slug === newData.slug);
+    if (isExist) {
+        return NextResponse.json({ error: `Ups, ${newData.name} already exist` }, { status: 409 });
+    }
+
 
     const productsData = await getJSON("products");
     const products = JSON.parse(productsData.productsData);
@@ -91,7 +96,7 @@ export async function DELETE (req: NextRequest, { params }: { params: { slug: st
     try {
         const status = await updateJSON( "categories", data);
         if (status) {
-            return NextResponse.json({ status: 200, message: `Category ${category.name} deleted successfully` });
+            return NextResponse.json({ status: 200, message: `${category.name} deleted successfully` });
         } else {
             return new Response(JSON.stringify({ error: 'Failed to delete categpry' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }
