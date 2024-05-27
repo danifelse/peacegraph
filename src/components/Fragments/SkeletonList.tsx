@@ -1,5 +1,4 @@
 export default function SkeletonList({ color = "gray" }: { color?: string }) {
-  console.log(color);
   return (
     <div
       role="status"
@@ -8,66 +7,66 @@ export default function SkeletonList({ color = "gray" }: { color?: string }) {
       <div className="flex items-center justify-between">
         <div>
           <div
-            className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
+            className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
           ></div>
           <div
-            className={`w-32 h-2 bg-${color}-300  rounded-full dark:bg-gray-700`}
+            className={`w-32 h-2 bg-gray-300  rounded-full dark:bg-gray-700`}
           ></div>
         </div>
         <div
-          className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-700 w-12`}
+          className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-700 w-12`}
         ></div>
       </div>
       <div className="flex items-center justify-between pt-4">
         <div>
           <div
-            className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
+            className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
           ></div>
           <div
-            className={`w-32 h-2 bg-${color}-300 rounded-full dark:bg-gray-700`}
+            className={`w-32 h-2 bg-gray-300 rounded-full dark:bg-gray-700`}
           ></div>
         </div>
         <div
-          className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-700 w-12`}
+          className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-700 w-12`}
         ></div>
       </div>
       <div className="flex items-center justify-between pt-4">
         <div>
           <div
-            className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
+            className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
           ></div>
           <div
-            className={`w-32 h-2 bg-${color}-300 rounded-full dark:bg-gray-700`}
+            className={`w-32 h-2 bg-gray-300 rounded-full dark:bg-gray-700`}
           ></div>
         </div>
         <div
-          className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-700 w-12`}
+          className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-700 w-12`}
         ></div>
       </div>
       <div className="flex items-center justify-between pt-4">
         <div>
           <div
-            className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
+            className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
           ></div>
           <div
-            className={`w-32 h-2 bg-${color}-300 rounded-full dark:bg-gray-700`}
+            className={`w-32 h-2 bg-gray-300 rounded-full dark:bg-gray-700`}
           ></div>
         </div>
         <div
-          className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-700 w-12`}
+          className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-700 w-12`}
         ></div>
       </div>
       <div className="flex items-center justify-between pt-4">
         <div>
           <div
-            className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
+            className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-600 w-24 mb-2.5`}
           ></div>
           <div
-            className={`w-32 h-2 bg-${color}-300 rounded-full dark:bg-gray-700`}
+            className={`w-32 h-2 bg-gray-300 rounded-full dark:bg-gray-700`}
           ></div>
         </div>
         <div
-          className={`h-2.5 bg-${color}-400 rounded-full dark:bg-gray-700 w-12`}
+          className={`h-2.5 bg-gray-400 rounded-full dark:bg-gray-700 w-12`}
         ></div>
       </div>
       <span className="sr-only">Loading...</span>
