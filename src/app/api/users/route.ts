@@ -15,11 +15,11 @@ export async function POST(req: NextRequest) {
         const data: User = await req.json();
         
         if (data) {
-            const status = await createUser(data);
+            const {status , message} = await createUser(data);
             if (status) {
-                return NextResponse.json({ status: 200, message: 'User created successfully' });
+                return NextResponse.json({ status: 200, message: message });
             } else {
-                return new Response(JSON.stringify({ error: 'Email already registered' }), { status: 400, headers: { 'Content-Type': 'application/json' }});
+                return new Response(JSON.stringify({ error: message }), { status: 400, headers: { 'Content-Type': 'application/json' }});
             }
         }   
     } catch (error) {

@@ -157,22 +157,35 @@ export async function deleteCategory(slug: string): Promise<boolean> {
     }
 }
 
-export async function createUser(userData: User): Promise<boolean > {
+export async function createUser(userData: User): Promise<{status: boolean , message: string}> {
+    const queryUsers = query(collection(firestore, "users"));
+    const snapshotUsers = await getDocs(queryUsers);
+    const usersData = snapshotUsers.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }))
+    if (usersData.length >= 5) {
+        return { status: false, message: "Maximum user reached" };
+    } 
     const userQuery = query(
         collection(firestore, "users"), where("email", "==", userData.email)
     );
     const snapshot = await getDocs(userQuery);
+    const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    }))
     userData.password = await bcrypt.hash(userData.password, 10);
-    if (snapshot.empty) {
+    if (data.length === 0) {
         try {
             await addDoc(collection(firestore, "users"), userData);
-            return true;
+            return { status: true, message: "User created successfully" };
         } catch (error) {
-            return false;
+            return { status: false, message: "Failed to create user" };
         }
     } else {
         console.log("User already exists");
-        return false;
+        return { status: false, message: "Email aready registered" };
     }
 }
 
