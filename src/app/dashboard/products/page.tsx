@@ -1,5 +1,6 @@
 "use client";
 import DashboardCardProduct from "@/components/Cards/DashboardCardProduct";
+import SearchInput from "@/components/Elements/SearchInput";
 import SkeletonCard from "@/components/Fragments/SkeletonCard";
 import ModalDelete from "@/components/Modals/ModalDelete";
 import { useAppSelector } from "@/lib/redux/hooks";
@@ -9,7 +10,6 @@ import { getData } from "@/services/getDataClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { FaSearch } from "react-icons/fa";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -133,23 +133,12 @@ export default function Products() {
       </div>
       <div className="mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
         <div className="grid lg:grid-cols-3 grid-cols-2 gap-2 mb-2 pb-2 border-b-2  border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-          <div>
-            <label htmlFor="search-products" className="sr-only">
-              Search
-            </label>
-            <div className="relative w-full">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <FaSearch />
-              </div>
-              <input
-                type="text"
-                id="search-products"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search by name..."
-                onChange={handleSearch}
-              />
-            </div>
-          </div>
+          <SearchInput
+            label="Search"
+            name="search-input"
+            placeholder="Search by name..."
+            onChange={handleSearch}
+          />
           <div></div>
           <div className="flex items-center gap-2">
             <select
