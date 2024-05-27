@@ -19,12 +19,12 @@ export default function BreadCrumb({ links }: { links: Array<string> }) {
           <li key={index}>
             <div className="flex items-center">
               <IoIosArrowForward />
-              <Link
-                href={link.toLocaleLowerCase().replace(/ /g, "-")}
+              <p
+                // href={`/${link.toLocaleLowerCase().replace(/ /g, "-")}`}
                 className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
               >
                 {link}
-              </Link>
+              </p>
             </div>
           </li>
         ))}
