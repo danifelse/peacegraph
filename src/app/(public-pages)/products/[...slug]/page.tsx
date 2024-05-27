@@ -30,7 +30,7 @@ export default function DetailProducts({
       (product: Product) => product.slug === productSlug
     )[0];
 
-    productsRel = products.filter((p) => p.category === product.category);
+    productsRel = products.filter((p) => p.category === product?.category);
   }
   console.log(productsRel);
 

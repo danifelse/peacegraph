@@ -11,7 +11,13 @@ import Pagination from "../Elements/Pagination";
 import BreadCrumb from "./BreadCrumb";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-export default function ProductsContainer() {
+export default function ProductsContainer({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
+  const searchByParams = searchParams.search;
+  console.log(searchByParams);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -23,6 +29,12 @@ export default function ProductsContainer() {
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const totalPages = Math.ceil(searchedProducts.length / itemsPerPage);
+
+  useEffect(() => {
+    if (searchByParams) {
+      setSearch(searchByParams);
+    }
+  }, [searchByParams]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -168,6 +180,14 @@ export default function ProductsContainer() {
               <span className="text-3xl">😔</span>
             </div>
           )}
+          {search.length > 0 && searchedProducts.length > 0 && (
+            <div className="flex justify-center items-center gap-2 ">
+              <p className="text-gray-700 text-xl font-light  ">
+                Hasil pencarian &quot;{search}&quot;
+              </p>
+            </div>
+          )}
+
           {searchedProducts.length === 0 && (
             <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-4 gap-2 lg:ps-8 py-4 lg:py-8">
               <SkeletonCard />
