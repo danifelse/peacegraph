@@ -1,5 +1,6 @@
 "use client";
 import FormProduct from "@/components/Forms/FormProduct";
+import Loading from "@/components/Fragments/Loading";
 import { Product } from "@/models/Product";
 import { getData } from "@/services/getDataClient";
 import { putData } from "@/services/putDataClients";
@@ -14,10 +15,13 @@ export default function EditProduct({ params }: { params: { slug: string } }) {
   const { push } = useRouter();
   const slug = params.slug;
   const [product, setProduct] = useState<Product>({} as Product);
+  console.log(product);
   useEffect(() => {
-    getData(`/api/products/${slug}`)
-      .then((res: any) => setProduct(res.data.data))
-      .catch((err: any) => console.log(err));
+    setTimeout(async () => {
+      getData(`/api/products/${slug}`)
+        .then((res: any) => setProduct(res.data.data))
+        .catch((err: any) => console.log(err));
+    }, 300);
   }, []);
 
   const handleUpdate = async (data: Product) => {
@@ -31,6 +35,7 @@ export default function EditProduct({ params }: { params: { slug: string } }) {
       toast.error(res.response.data.error);
     }
   };
+
   return (
     <div className="p-4 sm:ml-64">
       <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 flex items-center justify-between">
@@ -45,7 +50,13 @@ export default function EditProduct({ params }: { params: { slug: string } }) {
           Back to Products list
         </Link>
       </div>
-      <FormProduct product={product} onSubmitForm={handleUpdate} />
+      {product.name ? (
+        <FormProduct product={product} onSubmitForm={handleUpdate} />
+      ) : (
+        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-4 h-96 flex items-center justify-center">
+          <Loading />
+        </div>
+      )}
       <ToastContainer
         position="top-center"
         autoClose={5000}

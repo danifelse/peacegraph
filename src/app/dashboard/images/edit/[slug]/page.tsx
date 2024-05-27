@@ -1,5 +1,6 @@
 "use client";
 import FormImage from "@/components/Forms/FormImage";
+import Loading from "@/components/Fragments/Loading";
 import { ImageData } from "@/models/ImageData";
 import { getData } from "@/services/getDataClient";
 import { putData } from "@/services/putDataClients";
@@ -15,9 +16,11 @@ export default function EditImage({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const [image, setImage] = useState<ImageData>({} as ImageData);
   useEffect(() => {
-    getData(`/api/images/${slug}`)
-      .then((res: any) => setImage(res.data.data))
-      .catch((err: any) => console.log(err));
+    setTimeout(() => {
+      getData(`/api/images/${slug}`)
+        .then((res: any) => setImage(res.data.data))
+        .catch((err: any) => console.log(err));
+    }, 300);
   }, []);
 
   const handleUpdate = async (data: ImageData) => {
@@ -45,7 +48,13 @@ export default function EditImage({ params }: { params: { slug: string } }) {
           Back to Images list
         </Link>
       </div>
-      <FormImage image={image} onSubmitForm={handleUpdate} />
+      {image.imageUrl ? (
+        <FormImage image={image} onSubmitForm={handleUpdate} />
+      ) : (
+        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-4 h-96 flex items-center justify-center">
+          <Loading />
+        </div>
+      )}
       <ToastContainer
         position="top-center"
         autoClose={5000}

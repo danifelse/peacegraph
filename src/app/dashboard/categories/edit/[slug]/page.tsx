@@ -1,5 +1,6 @@
 "use client";
 import FormCategory from "@/components/Forms/FormCategory";
+import Loading from "@/components/Fragments/Loading";
 import { Category } from "@/models/Category";
 import { getData } from "@/services/getDataClient";
 import { putData } from "@/services/putDataClients";
@@ -15,9 +16,11 @@ export default function EditCategory({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const [category, setCategory] = useState<Category>({} as Category);
   useEffect(() => {
-    getData(`/api/categories/${slug}`)
-      .then((res: any) => setCategory(res.data.data))
-      .catch((err: any) => console.log(err));
+    setTimeout(() => {
+      getData(`/api/categories/${slug}`)
+        .then((res: any) => setCategory(res.data.data))
+        .catch((err: any) => console.log(err));
+    }, 300);
   }, []);
 
   const handleUpdate = async (data: Category) => {
@@ -45,7 +48,13 @@ export default function EditCategory({ params }: { params: { slug: string } }) {
           Back to Categories list
         </Link>
       </div>
-      <FormCategory category={category} onSubmitForm={handleUpdate} />
+      {category.imageUrl ? (
+        <FormCategory category={category} onSubmitForm={handleUpdate} />
+      ) : (
+        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-4 h-96 flex items-center justify-center">
+          <Loading />
+        </div>
+      )}
       <ToastContainer
         position="top-center"
         autoClose={5000}
