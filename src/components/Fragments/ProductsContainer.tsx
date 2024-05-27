@@ -7,12 +7,15 @@ import CardProduct from "../Cards/CardProduct";
 import SkeletonCard from "./SkeletonCard";
 import { getData } from "@/services/getDataClient";
 import SkeletonList from "./SkeletonList";
+import SearchInput from "../Elements/SearchInput";
 
 export default function ProductsContainer() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -30,6 +33,17 @@ export default function ProductsContainer() {
   }, [products]);
 
   useEffect(() => {
+    if (search === "") {
+      setSearchedProducts(filteredProducts);
+    } else {
+      const filtered = filteredProducts.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setSearchedProducts(filtered);
+    }
+  }, [search, filteredProducts]);
+
+  useEffect(() => {
     if (selectedCategories.length > 0) {
       const filtered = products.filter((product) => {
         if (selectedCategories.includes(product.category)) {
@@ -45,7 +59,7 @@ export default function ProductsContainer() {
     }
   }, [products, selectedCategories]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       setSelectedCategories([...selectedCategories, event.target.name]);
     } else {
@@ -55,11 +69,24 @@ export default function ProductsContainer() {
     }
   };
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearch(value);
+    if (value === "") {
+      setSearchedProducts(filteredProducts);
+    } else {
+      const filtered = filteredProducts.filter((product) =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setSearchedProducts(filtered);
+    }
+  };
+
   return (
-    <div className="lg:-mt-28 md:-mt-40 -mt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 relative ">
+    <div className="lg:-mt-28 md:-mt-40 -mt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative ">
       <div className="bg-white  rounded-lg grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 ">
         <div className="   rounded-lg ">
-          <div className="lg:p-10 md:p-6 p-2 md:sticky md:top-20 md:max-w-sm w-full bg-whgite shadow-xl rounded-lg">
+          <div className="lg:p-10 md:p-6 p-2 md:sticky md:top-20 md:max-w-sm w-full bg-whgite  rounded-lg">
             <h1 className="text-3xl text-gray-700">Category</h1>
             <div className="mt-4 grid grid-cols-2 md:grid-cols-1 gap-2 md:gap-0 ">
               {categories.length === 0 && <SkeletonList />}
@@ -76,8 +103,7 @@ export default function ProductsContainer() {
                         name={category.slug}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         value={category.slug}
-                        // defaultChecked
-                        onChange={handleChange}
+                        onChange={handleFilterChange}
                       />
                       <label
                         htmlFor={category.slug}
@@ -98,8 +124,16 @@ export default function ProductsContainer() {
             </div>
           </div>
         </div>
-        <div className="col-span-3 lg:pe-10">
-          {filteredProducts.length === 0 && products.length > 0 && (
+        <div className="col-span-3 lg:pe-8 ">
+          <div className="md:p-4 md:mt-5 p-2 md:sticky md:top-0 lg:w-[55%] md:w-[40%] md:z-30 relative">
+            <SearchInput
+              label="Search Product"
+              name="search"
+              placeholder="Search Product"
+              onChange={handleSearchChange}
+            />
+          </div>
+          {searchedProducts.length === 0 && products.length > 0 && (
             <div className="flex justify-center items-center gap-2 pt-10">
               <p className="text-gray-700 text-xl font-light  ">
                 Maaf, Product yang kamu cari belum tesedia
@@ -107,7 +141,7 @@ export default function ProductsContainer() {
               <span className="text-3xl">😔</span>
             </div>
           )}
-          {filteredProducts.length === 0 && (
+          {searchedProducts.length === 0 && (
             <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-4 gap-2 lg:ps-8 py-4 lg:py-8">
               <SkeletonCard />
               <SkeletonCard />
@@ -115,9 +149,9 @@ export default function ProductsContainer() {
               <SkeletonCard />
             </div>
           )}
-          <div className="mt-4 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 ">
-            {filteredProducts &&
-              filteredProducts.map((product) => (
+          <div className="mt-2 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 ">
+            {searchedProducts &&
+              searchedProducts.map((product) => (
                 <CardProduct key={product.slug} {...product} />
               ))}
           </div>
