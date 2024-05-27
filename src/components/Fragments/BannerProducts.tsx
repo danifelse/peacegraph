@@ -1,3 +1,4 @@
+"use client";
 import { useGetData } from "@/lib/swr/hooks";
 import { ImageData } from "@/models/ImageData";
 import SkeletonImages from "./SkeletonImages";
