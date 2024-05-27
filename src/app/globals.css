@@ -15,7 +15,7 @@
 }
 
 .navbar-scrolled {
-  @apply fixed z-50  bg-white bg-opacity-70 translate-y-0 opacity-100 backdrop-blur-sm dark:bg-dark dark:bg-opacity-80;
+  @apply fixed z-20  bg-white bg-opacity-70 translate-y-0 opacity-100 backdrop-blur-sm dark:bg-dark dark:bg-opacity-80;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
