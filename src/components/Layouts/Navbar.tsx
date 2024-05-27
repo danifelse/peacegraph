@@ -3,11 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import SearchInput from "../Elements/SearchInput";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [navStyle, setNavStyle] = useState("");
   const pathname = usePathname();
+  const { push } = useRouter();
 
   useEffect(() => {
     window.onscroll = function () {
@@ -20,6 +23,13 @@ export default function Navbar() {
       }
     };
   }, []);
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const value = form.search.value;
+    push(`/products?search=${value}`);
+  };
 
   return (
     <nav
@@ -56,6 +66,16 @@ export default function Navbar() {
           </svg>
         </button>
         <div
+          className={`${pathname === "/products" ? "hidden" : "block"} w-[50%]`}
+        >
+          <SearchInput
+            label="Search"
+            name="search"
+            placeholder="Search products ..."
+            onSubmit={handleSearch}
+          />
+        </div>
+        <div
           className={`${isOpen ? "block" : "hidden"} w-full md:block md:w-auto`}
           id="navbar-default"
         >
@@ -86,15 +106,7 @@ export default function Navbar() {
                 href="#"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Pricing
+                About
               </Link>
             </li>
             <li>
