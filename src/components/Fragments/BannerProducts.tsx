@@ -15,9 +15,6 @@ export default function BannerProducts() {
         <div className="w-fulll g:mb-20 md:mb-10 mb-6  overflow-hidden p-0 lg:aspect-[3/1] md:aspect-[9/4] aspect-[9/5] h-full ">
           <SkeletonImages />
         </div>
-        <div className=" sm:px-6 mb-20">
-          <Skeleton />
-        </div>
       </div>
     );
   }
