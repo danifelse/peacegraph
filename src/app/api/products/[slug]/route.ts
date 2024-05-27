@@ -1,10 +1,9 @@
+import { getJSON, updateJSON } from "@/lib/firebase/servicejson";
 import { deleteProduct, retreiveDataBySlug, updateProduct } from "@/lib/firebase/services";
 import { Product } from "@/models/Product";
 import { NextRequest, NextResponse } from "next/server"
-import path from "path";
-import fsPromises from 'fs/promises';
 
-const dataFilePath = path.join(process.cwd(), '/src/data/products.json');
+
 export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
     const apiKey = req.headers.get('apiKey');
     const validApiKey = process.env.API_KEY;
@@ -14,16 +13,17 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     }
     const slug = params.slug;
     try {
-        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
-        const productsData : Product[] = JSON.parse(data);
+        const data  = await getJSON("productsjson");
+        const productsData : Product[] = JSON.parse(data.productsData);
+
         const product = productsData.find((product: Product) => product.slug === slug);
 
         if (!product) {
-            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+            return NextResponse.json({ error: 'Image not found' }, { status: 404 });
         }
         return NextResponse.json({ status: 200, message: "Success", data: product });
     } catch (error) {
-        console.error("Error fetching data", error);
+        console.error("Error fetching data from Firestore", error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
@@ -38,26 +38,23 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
 
     const slug = params.slug;
     const newData = await req.json();
+    const data  = await getJSON("productsjson");
+    const productsData : Product[] = JSON.parse(data.productsData);
+    const product = productsData.find((product: Product) => product.slug === slug);
+    if (!product) {
+        return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    }
+
+
+    productsData[productsData.indexOf(product)] = newData;
+    data.productsData = JSON.stringify(productsData);
     try {
-        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
-        const productsData : Product[] = JSON.parse(data);
-        const isExist = productsData.find((product: Product) => product.slug === newData.slug);
-        if (isExist) {
-            return NextResponse.json({ error: `Product name ${newData.name} already exist` }, { status: 409 });
+        const status = await updateJSON("productsjson", "products", data);
+        if (status) {
+            return NextResponse.json({ status: 200, message: 'Product updated successfully', data: newData });
+        } else {
+            return new Response(JSON.stringify({ error: 'Failed to update image' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }
-
-        const product = productsData.find((product: Product) => product.slug === slug);
-        if (!product) {
-            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
-        }
-        productsData[productsData.indexOf(product)] = newData;
-        const updatedData = JSON.stringify(productsData);
-
-        if (newData) {
-            await fsPromises.writeFile(dataFilePath, updatedData);
-            return NextResponse.json({ status: 200, message: `Success edit ${newData.name} product`, data: newData });
-        }
-        
     } catch (error) {
         console.error("Error updating data in Firestore", error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
@@ -73,22 +70,23 @@ export async function DELETE (req: NextRequest, { params }: { params: { slug: st
     }
 
     const slug = params.slug;
+    const data  = await getJSON("productsjson");
+    const productsData : Product[] = JSON.parse(data.productsData);
+    const product = productsData.find((product: Product) => product.slug === slug);
+    if (!product) {
+        return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    }
+    productsData.splice(productsData.indexOf(product), 1);
+    data.productsData = JSON.stringify(productsData);
     try {
-        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
-        const productsData : Product[] = JSON.parse(data);
-        const product = productsData.find((product: Product) => product.slug === slug);
-        if (!product) {
-            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+        const status = await updateJSON("productsjson", "products", data);
+        if (status) {
+            return NextResponse.json({ status: 200, message: 'Product deleted successfully' });
+        } else {
+            return new Response(JSON.stringify({ error: 'Failed to delete image' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }
-        productsData.splice(productsData.indexOf(product), 1);
-        const updatedData = JSON.stringify(productsData);
-
-        await fsPromises.writeFile(dataFilePath, updatedData);
-       
-        return NextResponse.json({ status: 200, message: `${product.name} deleted successfully` });
-       
     } catch (error) {
-        console.error("Error deleting data", error);
+        console.error("Error deleting data in Firestore", error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

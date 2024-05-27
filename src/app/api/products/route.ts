@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createProduct, retreiveData } from '@/lib/firebase/services';
 import { Product } from '@/models/Product';
-import fsPromises from 'fs/promises';
-import path from 'path';
-
-const dataFilePath = path.join(process.cwd(), '/src/data/products.json');
-
+import { getJSON, updateJSON } from '@/lib/firebase/servicejson';
 
 export async function GET(req: NextRequest, ) {
     const apiKey = req.headers.get('apiKey');
@@ -15,42 +11,38 @@ export async function GET(req: NextRequest, ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
-        const productsData : Product[] = JSON.parse(data);
+        const data  = await getJSON("productsjson");
+        const productsData : Product[] = JSON.parse(data.productsData);
 
-        
         if (!productsData) {
             return NextResponse.json({ error: 'Images not found' }, { status: 404 });
         }
 
         return NextResponse.json({ status: 200, message: "Success", data: productsData });
     } catch (error) {
-        console.error("Error fetching data ", error);
+        console.error("Error fetching data from Firestore", error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
 
+
 export async function POST(req: NextRequest  ) {
     const apiKey = req.headers.get('apiKey');
     const validApiKey = process.env.API_KEY;
-    const newData = await req.json();
+
     if (!apiKey || apiKey !== validApiKey) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
-        const productsData : Product[] = JSON.parse(data);
-        const isExist = productsData.find((product: Product) => product.slug === newData.slug);
-        if (isExist) {
-            return NextResponse.json({ error: `Product name ${newData.name} already exist` }, { status: 409 });
-        }
+        const data  = await getJSON("productsjson");
+        const productsData : Product[] = JSON.parse(data.productsData);
+        const newData = await req.json();
 
-        
         productsData.push(newData);
-        const updatedData = JSON.stringify(productsData);
+        data.productsData = JSON.stringify(productsData);
         if (newData) {
-            await fsPromises.writeFile(dataFilePath, updatedData);
-            return NextResponse.json({ status: 200, message: `Success add ${newData.name} to products list`, data: newData });
+            await updateJSON("productsjson", "products" , data );
+            return NextResponse.json({ status: 200, message: "Success", data: newData });
         }
 
         return NextResponse.json({ error: 'Data not found' }, { status: 404 });
@@ -60,9 +52,6 @@ export async function POST(req: NextRequest  ) {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
-
-
-
 //  USING FIREBASE
 
 // // Handler untuk metode GET

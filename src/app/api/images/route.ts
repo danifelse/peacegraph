@@ -2,10 +2,6 @@ import { getJSON, updateJSON } from "@/lib/firebase/servicejson";
 import { ImageData } from "@/models/ImageData";
 import { NextRequest, NextResponse } from "next/server";
 
-import fsPromises from 'fs/promises';
-import path from 'path';
-
-const dataFilePath = path.join(process.cwd(), '/src/data/images.json');
 
 // using json data 
 
@@ -17,9 +13,9 @@ export async function GET(req: NextRequest, ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
-        const imagesData : ImageData[] = JSON.parse(data);
-        
+        const data  = await getJSON("images");
+        const imagesData : ImageData[] = JSON.parse(data.imagesData);
+
         if (!imagesData) {
             return NextResponse.json({ error: 'Images not found' }, { status: 404 });
         }
@@ -40,15 +36,15 @@ export async function POST(req: NextRequest  ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const data  = await fsPromises.readFile(dataFilePath, 'utf8');
+        const data  = await getJSON("images");
         console.log(data)
-        const imagesData : ImageData[] = JSON.parse(data);
+        const imagesData : ImageData[] = JSON.parse(data.imagesData);
         const newData = await req.json();
-        
+
         if (newData) {
             imagesData.push(newData);
-            const updatedImages = JSON.stringify(imagesData);
-            await fsPromises.writeFile(dataFilePath, updatedImages);
+            data.imageData = JSON.stringify(imagesData);
+            await updateJSON("images", "images" , data );
             return NextResponse.json({ status: 200, message: "Success", data: newData });
         }
 
