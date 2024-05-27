@@ -9,6 +9,7 @@ import SkeletonList from "./SkeletonList";
 import SearchInput from "../Elements/SearchInput";
 import Pagination from "../Elements/Pagination";
 import BreadCrumb from "./BreadCrumb";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 export default function ProductsContainer() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -139,7 +140,24 @@ export default function ProductsContainer() {
               onChange={handleSearchChange}
             />
           </div>
-          <div className="md:p-4 md:mt-5 p-2 absolute top-2 right-10 hidden md:block ">
+          <div className="md:p-4 md:mt-5 p-2 absolute top-2 right-10 hidden md:flex md:gap-6 items-center ">
+            <div className="flex lg:gap-2 items-center">
+              <span
+                className="cursor-pointer"
+                onClick={() => page > 1 && setPage(page - 1)}
+              >
+                <IoIosArrowBack className="lg:text-2xl text-lg text-blue-400" />
+              </span>
+              <span className=" lg:text-base text-sm">
+                Pages {page} / {totalPages}
+              </span>
+              <span
+                className="cursor-pointer"
+                onClick={() => page < totalPages && setPage(page + 1)}
+              >
+                <IoIosArrowForward className="lg:text-2xl text-lg text-blue-400" />
+              </span>
+            </div>
             <BreadCrumb links={["Products"]} />
           </div>
           {searchedProducts.length === 0 && products.length > 0 && (
