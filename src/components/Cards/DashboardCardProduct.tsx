@@ -24,12 +24,14 @@ export default function DashboardCardProduct({
   };
 
   return (
-    <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-3">
-      <img
-        className="rounded-t-lg aspect-square object-cover object-center"
-        src={imageUrl}
-        alt=""
-      />
+    <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-3 group hover:-translate-y-2 group-hover:shadow-none transition-all duration-500">
+      <div className="rounded-t-lg overflow-hidden">
+        <img
+          className="aspect-square object-cover object-center group-hover:scale-110 transition-all duration-500"
+          src={imageUrl}
+          alt=""
+        />
+      </div>
       <div className="md:px-5 px-1 md:py-2 py-1">
         <div className="flex justify-between items-center">
           <div>
