@@ -6,7 +6,7 @@ import { AiFillProduct } from "react-icons/ai";
 import { BsImages } from "react-icons/bs";
 import { FaTags } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi";
-import { MdDashboard, MdMessage } from "react-icons/md";
+import { MdDashboard, MdEditNote, MdMessage } from "react-icons/md";
 import { RiLogoutBoxLine } from "react-icons/ri";
 
 export default function Sidebar() {
@@ -91,6 +91,18 @@ export default function Sidebar() {
             >
               <BsImages className="w-6 h-6" />
               <span className="flex-1 ms-3 whitespace-nowrap">Images</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/dashboard/articles"
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname.startsWith("/dashboard/articles") &&
+                "bg-gray-200 dark:bg-gray-700"
+              }`}
+            >
+              <MdEditNote className="w-6 h-6" />
+              <span className="flex-1 ms-3 whitespace-nowrap">Articles</span>
             </Link>
           </li>
           <li>
