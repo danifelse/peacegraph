@@ -1,5 +1,6 @@
 "use client";
 import DashboardCardProduct from "@/components/Cards/DashboardCardProduct";
+import Pagination from "@/components/Elements/Pagination";
 import SearchInput from "@/components/Elements/SearchInput";
 import SkeletonCard from "@/components/Fragments/SkeletonCard";
 import ModalDelete from "@/components/Modals/ModalDelete";
@@ -10,7 +11,11 @@ import { getData } from "@/services/getDataClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { IoMdAddCircleOutline } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoIosArrowForward,
+  IoMdAddCircleOutline,
+} from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,6 +27,11 @@ export default function Products() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 12;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const totalPages = Math.ceil(searchedProducts.length / itemsPerPage);
   useEffect(() => {
     setTimeout(() => {
       getData("/api/products")
@@ -139,7 +149,23 @@ export default function Products() {
             placeholder="Search by name..."
             onChange={handleSearch}
           />
-          <div></div>
+          <div className="flex lg:gap-2 items-center justify-center">
+            <span
+              className="cursor-pointer"
+              onClick={() => page > 1 && setPage(page - 1)}
+            >
+              <IoIosArrowBack className="lg:text-2xl text-lg text-blue-400" />
+            </span>
+            <span className=" lg:text-base text-sm">
+              Pages {page} / {totalPages}
+            </span>
+            <span
+              className="cursor-pointer"
+              onClick={() => page < totalPages && setPage(page + 1)}
+            >
+              <IoIosArrowForward className="lg:text-2xl text-lg text-blue-400" />
+            </span>
+          </div>
           <div className="flex items-center gap-2">
             <select
               id="countries"
@@ -176,9 +202,14 @@ export default function Products() {
         )}
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 ">
           {searchedProducts &&
-            searchedProducts.map((product: Product) => (
-              <DashboardCardProduct key={product.slug} {...product} />
-            ))}
+            searchedProducts
+              .slice(startIndex, endIndex)
+              .map((product: Product) => (
+                <DashboardCardProduct key={product.slug} {...product} />
+              ))}
+        </div>
+        <div className="mt-6">
+          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       </div>
 
