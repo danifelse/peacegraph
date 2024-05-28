@@ -67,8 +67,10 @@ export default function Navbar() {
         </button>
         <div
           className={`${
-            pathname === "/products" ? "hidden" : "block"
-          }  hidden md:block md:w-auto lg:w-[40%]`}
+            pathname === "/products"
+              ? "hidden"
+              : "block md:block md:w-auto lg:w-[40%] z-50"
+          }  hidden `}
         >
           <SearchInput
             label="Search"
