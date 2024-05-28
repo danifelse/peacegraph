@@ -115,14 +115,18 @@ export default function ProductsContainer({
                 categories.map((category) => (
                   <div
                     key={category.slug}
-                    className=" flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700 relative"
+                    className={`flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700 relative transition duration-500  ${
+                      selectedCategories.includes(category.slug)
+                        ? "bg-pink-300 -translate-x-2 -translate-y-1"
+                        : "bg-pink-100"
+                    }`}
                   >
                     <div className="flex items-center ">
                       <input
                         type="checkbox"
                         id={category.slug}
                         name={category.slug}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className={`w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
                         value={category.slug}
                         onChange={handleFilterChange}
                       />
