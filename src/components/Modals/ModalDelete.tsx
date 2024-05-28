@@ -10,10 +10,8 @@ export default function ModalDelete({
 }) {
   const dispatch = useAppDispatch();
   const { isOpen, slug } = modalState;
-  console.log(modalState);
 
   const onConfirm = () => {
-    console.log(`modal slug : ${slug}`);
     handleConfirm(slug);
     dispatch(closeModal());
   };
