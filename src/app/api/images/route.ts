@@ -37,7 +37,6 @@ export async function POST(req: NextRequest  ) {
     }
     try {
         const data  = await getJSON("images");
-        console.log(data)
         const imagesData : ImageData[] = JSON.parse(data.imagesData);
         const newData = await req.json();
 

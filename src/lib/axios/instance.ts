@@ -25,9 +25,7 @@ instance.interceptors.request.use(
     (error) => Promise.reject(error),
 )
 export const fetcher = (url : string) => {
-    console.log(url)
     return instance.get(url).then((res) => {
-        console.log(res)
       if (!res.data) {
         throw Error(res.data.message);
       }

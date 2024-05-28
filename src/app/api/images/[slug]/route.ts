@@ -36,7 +36,6 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
 
     const slug = params.slug;
     const newData = await req.json();
-    console.log(newData);
     const data  = await getJSON("images");
     const imagesData : ImageData[] = JSON.parse(data.imagesData);
 
