@@ -1,6 +1,5 @@
 "use client";
 import FormArticle from "@/components/Forms/FormArticle";
-import FormCategory from "@/components/Forms/FormCategory";
 import Loading from "@/components/Fragments/Loading";
 import { Article } from "@/models/Articles";
 import { getData } from "@/services/getDataClient";
