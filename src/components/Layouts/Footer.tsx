@@ -3,7 +3,7 @@ import { FaLocationDot } from "react-icons/fa6";
 
 export default function Footer() {
   return (
-    <footer className="w-full pb-14 pt-24">
+    <footer id="footer" className="w-full pb-14 pt-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="border-b border-gray-200 pb-14 flex justify-between items-center flex-col gap-8 lg:gap-0 lg:flex-row">
           <div className="block">
