@@ -22,8 +22,6 @@ export default function CategorySection({
           className={`md:w-[40%] w-[30%]  lg:px-4 rounded-xl  relative z-0 ${
             index % 2 === 1 ? "order-1" : "order-0"
           }`}
-          data-aos={`${index % 2 ? "fade-up" : "fade-right"}`}
-          data-aos-delay="300"
         >
           <div className="rounded-xl overflow-hidden h-full  ">
             <img
@@ -36,8 +34,6 @@ export default function CategorySection({
             className={`absolute top-3  bg-pink-400 bg-opacity-50 backdrop-blur-sm md:px-3 md:py-2 p-1 z-10 flex items-center gap-2 hover:scale-125 transition duration-300 cursor-pointer ${
               index % 2 ? "left-0" : "right-0  "
             }`}
-            data-aos={`${index % 2 === 1 ? "fade-left" : "fade-right"}`}
-            data-aos-delay="1000"
           >
             {(index + 1) % 2 ? null : (
               <FaArrowLeftLong className="text-white" />
