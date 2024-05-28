@@ -68,7 +68,15 @@ export default function FormArticle({
         return;
       }
     }
-    if (textContent === "") {
+
+    let markedText;
+    const inputContent = document.getElementById("content") as HTMLInputElement;
+    const text = inputContent.value;
+
+    if (text) {
+      markedText = await marked(text);
+      setTextContent(markedText);
+    } else {
       setMessage("Please write something in the content field");
       setTimeout(() => {
         setIsloading(false);
@@ -81,7 +89,7 @@ export default function FormArticle({
       title: data.title,
       order: data.order,
       slug: slug,
-      content: textContent,
+      content: markedText,
     };
     await onSubmitForm(article);
     setIsloading(false);
@@ -110,7 +118,9 @@ export default function FormArticle({
             <textarea
               name="content"
               id="content"
-              defaultValue={turndownService.turndown(textContent)}
+              defaultValue={
+                textContent ? turndownService.turndown(textContent) : ""
+              }
               className="w-full border-2 border-gray-700 rounded-lg p-2 h-80"
             ></textarea>
             <div className="flex justify-end">
@@ -133,7 +143,7 @@ export default function FormArticle({
             />
             <p className="text-gray-700 mt-3">Preview :</p>
             <div className="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3 aspect-[1/1] w-full overflow-y-auto mx-auto relative p-4">
-              {textContent.length > 0 ? (
+              {textContent ? (
                 <div
                   className="prose max-w-full h-full overflow-y-auto"
                   dangerouslySetInnerHTML={{ __html: textContent }}
