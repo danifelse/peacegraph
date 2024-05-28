@@ -19,10 +19,10 @@ export default function CategorySection({
     <div className="mx-auto max-w-7xl px-4 sm:px-6 my-10">
       <div className="flex ">
         <div
-          className={`md:w-[40%] w-[30%]  lg:px-4 rounded-xl  relative ${
+          className={`md:w-[40%] w-[30%]  lg:px-4 rounded-xl  relative z-0 ${
             index % 2 === 1 ? "order-1" : "order-0"
           }`}
-          data-aos={`${index % 2 ? "fade-left" : "fade-right"}`}
+          data-aos={`${index % 2 ? "fade-up" : "fade-right"}`}
           data-aos-delay="300"
         >
           <div className="rounded-xl overflow-hidden h-full  ">
@@ -51,7 +51,7 @@ export default function CategorySection({
           </div>
         </div>
         <div
-          className="md:w-[60%] w-[70%] "
+          className="md:w-[60%] w-[70%] relative z-10"
           data-aos={`${index % 2 === 0 ? "fade-left" : "fade-right"}`}
           data-aos-delay="500"
         >
