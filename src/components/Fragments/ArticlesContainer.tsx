@@ -3,7 +3,6 @@ import { Article } from "@/models/Articles";
 import { getData } from "@/services/getDataClient";
 import { useEffect, useState } from "react";
 import SkeletonList from "./SkeletonList";
-import { AOSInit } from "@/lib/aos/aos";
 export default function ArticlesContainer() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [indexOpen, setIndexOpen] = useState(0);
@@ -16,13 +15,8 @@ export default function ArticlesContainer() {
   useEffect(() => {
     setSortedArticles(articles.sort((a, b) => a.order - b.order));
   }, [articles]);
-  AOSInit();
   return (
-    <div
-      className="lg:-mt-28 md:-mt-40 -mt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative "
-      data-aos="fade-up"
-      data-aos-duration="1500"
-    >
+    <div className="lg:-mt-28 md:-mt-40 -mt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative ">
       <div className="bg-white shadow-lg  rounded-lg grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 ">
         <div className="   rounded-lg ">
           <div className=" md:sticky md:top-20 md:max-w-sm w-full bg-whgite  rounded-lg">
@@ -64,8 +58,6 @@ export default function ArticlesContainer() {
             dangerouslySetInnerHTML={{
               __html: sortedArticles[indexOpen]?.content,
             }}
-            data-aos="fade-up"
-            data-aos-duration="1000"
           ></div>
         </div>
       </div>
