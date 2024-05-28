@@ -47,7 +47,7 @@ export async function PUT (req: NextRequest, { params }: { params: { slug: strin
     }
 
     articlesData[articlesData.indexOf(articleData)] = newData;
-    data.articleData = JSON.stringify(articlesData);
+    data.articlesData = JSON.stringify(articlesData);
     try {
         const status = await updateJSON("articles", data);
         if (status) {
@@ -73,16 +73,16 @@ export async function DELETE (req: NextRequest, { params }: { params: { slug: st
     const slug = params.slug;
     const data  = await getJSON("articles");
     const articlesData : Article[] = JSON.parse(data.articlesData);
-    const aeticle = articlesData.find((aeticle: Article) => aeticle.slug === slug);
-    if (!aeticle) {
-        return NextResponse.json({ error: 'aeticle not found' }, { status: 404 });
+    const article = articlesData.find((article: Article) => article.slug === slug);
+    if (!article) {
+        return NextResponse.json({ error: 'article not found' }, { status: 404 });
     }
-    articlesData.splice(articlesData.indexOf(aeticle), 1);
+    articlesData.splice(articlesData.indexOf(article), 1);
     data.articlesData = JSON.stringify(articlesData);
     try {
         const status = await updateJSON( "articles", data);
         if (status) {
-            return NextResponse.json({ status: 200, message: `${aeticle.title} deleted successfully` });
+            return NextResponse.json({ status: 200, message: `${article.title} deleted successfully` });
         } else {
             return new Response(JSON.stringify({ error: 'Failed to delete categpry' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }
