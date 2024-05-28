@@ -17,7 +17,6 @@ export default function ProductsContainer({
   searchParams: { [key: string]: string | undefined };
 }) {
   const searchByParams = searchParams.search;
-  console.log(searchByParams);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -29,7 +28,6 @@ export default function ProductsContainer({
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const totalPages = Math.ceil(searchedProducts.length / itemsPerPage);
-
   useEffect(() => {
     if (searchByParams) {
       setSearch(searchByParams);
@@ -102,7 +100,11 @@ export default function ProductsContainer({
   };
 
   return (
-    <div className="lg:-mt-28 md:-mt-40 -mt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative ">
+    <div
+      className="lg:-mt-28 md:-mt-40 -mt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative "
+      data-aos="fade-up"
+      data-aos-duration="2000"
+    >
       <div className="bg-white  rounded-lg grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 ">
         <div className="   rounded-lg ">
           <div className="lg:p-10 md:p-6 p-2 md:sticky md:top-20 md:max-w-sm w-full bg-whgite  rounded-lg">
@@ -200,8 +202,8 @@ export default function ProductsContainer({
             {searchedProducts &&
               searchedProducts
                 .slice(startIndex, endIndex)
-                .map((product) => (
-                  <CardProduct key={product.slug} {...product} />
+                .map((product, i) => (
+                  <CardProduct key={product.slug} {...product} i={i + 1} />
                 ))}
           </div>
           <div className="mt-10">
