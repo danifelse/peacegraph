@@ -26,7 +26,7 @@ export default function ProductSection() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 ">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 " data-aos="fade-up">
       {categories.map((category, index) => (
         <CategorySection
           key={category.slug}
