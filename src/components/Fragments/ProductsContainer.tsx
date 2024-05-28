@@ -103,7 +103,7 @@ export default function ProductsContainer({
     <div
       className="lg:-mt-28 md:-mt-40 -mt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative "
       data-aos="fade-up"
-      data-aos-duration="2000"
+      data-aos-duration="1500"
     >
       <div className="bg-white  rounded-lg grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 ">
         <div className="   rounded-lg ">

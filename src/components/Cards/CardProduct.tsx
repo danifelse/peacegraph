@@ -1,6 +1,4 @@
-"use client";
 import Link from "next/link";
-import { AOSInit } from "@/lib/aos/aos";
 
 export default function CardProduct({
   name,
@@ -17,14 +15,8 @@ export default function CardProduct({
   imageUrl: string;
   i?: number;
 }) {
-  AOSInit();
   return (
-    <Link
-      href={`/products/${category}/${slug}`}
-      className="group"
-      data-aos="fade-up"
-      data-aos-delay={(4 % i) * 300}
-    >
+    <Link href={`/products/${category}/${slug}`} className="group">
       <div className="max-w-60 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 m-1 lg:m-3 group-hover:-translate-y-2 group-hover:shadow-none transition-all duration-500 overflow-hidden">
         <div className="overflow-hidden ">
           <img
