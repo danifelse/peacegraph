@@ -1,16 +1,16 @@
 "use client";
-import { getCategoriesData, getProductsData } from "@/services/getData";
 import CategorySection from "./CategorySection";
 import { Product } from "@/models/Product";
 import { Category } from "@/models/Category";
-import useSWR from "swr";
-import { fetcher } from "@/lib/axios/instance";
 import { useGetData } from "@/lib/swr/hooks";
 import Skeleton from "./Skeleton";
+import { AOSInit } from "@/lib/aos/aos";
 
 export default function ProductSection() {
   const productsData = useGetData("api/products");
   const categoriesData = useGetData("api/categories");
+
+  AOSInit();
 
   const products: Product[] = productsData?.data?.data;
   const categories: Category[] = categoriesData?.data?.data;
