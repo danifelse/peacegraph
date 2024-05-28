@@ -4,6 +4,7 @@ import InputForm from "@/components/Elements/Input";
 import { Article } from "@/models/Articles";
 import { marked } from "marked";
 import { useEffect, useState } from "react";
+import TurndownService from "turndown";
 
 export default function FormArticle({
   article = {} as Article,
@@ -17,6 +18,7 @@ export default function FormArticle({
   const [previewLoading, setPreviewLoading] = useState(false);
   const [textContent, setTextContent] = useState<string>("");
   const [slug, setSlug] = useState("");
+  const turndownService = new TurndownService();
 
   useEffect(() => {
     if (Object.keys(article).length) {
@@ -25,9 +27,16 @@ export default function FormArticle({
     }
   }, [article]);
 
+  useEffect(() => {}, []);
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
-    setSlug(title.replace(/ /g, "-").toLowerCase());
+    setSlug(
+      title
+        .replace(/[^a-z0-9\s]/gi, "-")
+        .replace(/ /g, "-")
+        .toLowerCase()
+    );
   };
 
   const handlePreview = async () => {
@@ -70,11 +79,11 @@ export default function FormArticle({
 
     const article = {
       title: data.title,
+      order: data.order,
       slug: slug,
       content: textContent,
     };
-    // await onSubmitForm(article);
-    console.log(article);
+    await onSubmitForm(article);
     setIsloading(false);
     setPreviewLoading(false);
   };
@@ -82,7 +91,7 @@ export default function FormArticle({
   return (
     <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3">
       <form onSubmit={handleSubmit}>
-        <div className="lg:grid grid-cols-1 gap-4 lg:px-10">
+        <div className="lg:grid grid-cols-2 gap-4 lg:px-10">
           <div className="  space-y-2 md:space-y-4">
             <InputForm
               label="Article Title"
@@ -101,7 +110,7 @@ export default function FormArticle({
             <textarea
               name="content"
               id="content"
-              defaultValue={textContent}
+              defaultValue={turndownService.turndown(textContent)}
               className="w-full border-2 border-gray-700 rounded-lg p-2 h-80"
             ></textarea>
             <div className="flex justify-end">
@@ -115,8 +124,15 @@ export default function FormArticle({
             </div>
           </div>
           <div>
-            <p className="text-gray-700 ">Preview :</p>
-            <div className="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3 aspect-[2/1] w-full overflow-y-auto mx-auto relative p-4">
+            <InputForm
+              label="Order"
+              name="order"
+              type="number"
+              defaultValue={article?.order}
+              placeholder="Article Order ( Nomor Urut )"
+            />
+            <p className="text-gray-700 mt-3">Preview :</p>
+            <div className="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3 aspect-[1/1] w-full overflow-y-auto mx-auto relative p-4">
               {textContent.length > 0 ? (
                 <div
                   className="prose max-w-full h-full overflow-y-auto"
