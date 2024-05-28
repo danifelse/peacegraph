@@ -66,7 +66,9 @@ export default function Navbar() {
           </svg>
         </button>
         <div
-          className={`${pathname === "/products" ? "hidden" : "block"} w-[50%]`}
+          className={`${
+            pathname === "/products" ? "hidden" : "block"
+          }  hidden md:block md:w-auto lg:w-[40%]`}
         >
           <SearchInput
             label="Search"
