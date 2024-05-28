@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 
@@ -95,9 +96,18 @@ export default function Footer() {
         {/* <!--Grid--> */}
         <div className="py-7 border-t border-gray-200">
           <div className="flex items-center justify-center flex-col lg:justify-between lg:flex-row">
-            <span className="text-sm text-gray-500 ">
-              <a href="/">Peacegraph</a> 2024, All rights reserved.
-            </span>
+            <div>
+              <span className="text-sm text-gray-500 ">
+                <a href="/">Peacegraph</a> 2024, All rights reserved.
+              </span>
+              <p className="text-sm text-gray-500">
+                Are you an admin ?
+                <Link href="/auth/login" className="text-blue-500 mx-2">
+                  Click Here
+                </Link>
+              </p>
+            </div>
+
             <div className="flex mt-5 px-2 cursor-pointer">
               <a
                 href="https://wa.me/c/628118811647"
