@@ -77,7 +77,7 @@ export function NextArrow(props: any) {
   const { className, style, onClick, index } = props;
   return (
     <div
-      className={`flex justify-center absolute top-1/2 translate-y-[60%]   z-10 ${
+      className={`flex justify-center absolute top-1/2 translate-y-[60%]   z-50 ${
         index % 2 === 0 ? "lg:-left-20 -left-10 " : "lg:-right-20 -right-10"
       } `}
     >
@@ -109,7 +109,7 @@ export function PrevArrow(props: any) {
   const { className, style, onClick, index } = props;
   return (
     <div
-      className={`flex justify-center absolute top-1/2 -translate-y-[60%]   z-10 ${
+      className={`flex justify-center absolute top-1/2 -translate-y-[60%]   z-50 ${
         index % 2 === 0 ? "lg:-left-20 -left-10 " : "lg:-right-20 -right-10"
       } `}
     >
