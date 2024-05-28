@@ -1,40 +1,45 @@
 "use client";
 
 import InputForm from "@/components/Elements/Input";
-import { Category } from "@/models/Category";
+import { marked } from "marked";
 import { useEffect, useState } from "react";
 
 export default function FormArticle({
-  category = {} as Category,
+  article = {} as any,
   onSubmitForm,
 }: {
-  category?: Category;
+  article?: any;
   onSubmitForm: Function;
 }) {
-  const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState("");
   const [isloading, setIsloading] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
-  const [textContent, setTextContent] = useState("");
+  const [textContent, setTextContent] = useState<string>("");
   const [slug, setSlug] = useState("");
 
   useEffect(() => {
-    if (Object.keys(category).length) {
-      setSlug(category?.name?.replace(/ /g, "-").toLowerCase());
-      setImageUrl(category?.imageUrl);
+    if (Object.keys(article).length) {
+      setSlug(article?.title?.replace(/ /g, "-").toLowerCase());
+      setTextContent(article?.content);
     }
-  }, [category]);
+  }, [article]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.value;
-    setSlug(name.replace(/ /g, "-").toLowerCase());
+    const title = e.target.value;
+    setSlug(title.replace(/ /g, "-").toLowerCase());
   };
 
-  const handlePreview = () => {
+  const handlePreview = async () => {
     setPreviewLoading(true);
     const inputContent = document.getElementById("content") as HTMLInputElement;
-    const text = inputContent.value;
-    setTextContent(text);
+    if (inputContent) {
+      const text = inputContent.value;
+      const markedText = await marked(text); // Menunggu Promise selesai
+      setTextContent(markedText);
+    } else {
+      console.error("Text area not found");
+    }
+
     setPreviewLoading(false);
   };
 
@@ -53,8 +58,8 @@ export default function FormArticle({
         return;
       }
     }
-    if (imageUrl === "") {
-      setMessage("Please Upload an image");
+    if (textContent === "") {
+      setMessage("Please write something in the content field");
       setTimeout(() => {
         setIsloading(false);
         setMessage("");
@@ -62,12 +67,13 @@ export default function FormArticle({
       return;
     }
 
-    const category = {
-      name: data.name,
+    const article = {
+      title: data.title,
       slug: slug,
-      imageUrl: imageUrl,
+      content: textContent,
     };
-    await onSubmitForm(category);
+    // await onSubmitForm(article);
+    console.log(article);
     setIsloading(false);
     setPreviewLoading(false);
   };
@@ -75,15 +81,15 @@ export default function FormArticle({
   return (
     <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3">
       <form onSubmit={handleSubmit}>
-        <div className="lg:grid grid-cols-2 gap-4 lg:px-10">
+        <div className="lg:grid grid-cols-1 gap-4 lg:px-10">
           <div className="  space-y-2 md:space-y-4">
             <InputForm
               label="Article Title"
               placeholder="Example : Stand Acrilic"
-              name="name"
+              name="title"
               type="text"
               onChange={(e) => handleNameChange(e)}
-              defaultValue={category?.name}
+              defaultValue={article?.title}
             />
             <label
               htmlFor="content"
@@ -108,10 +114,53 @@ export default function FormArticle({
           </div>
           <div>
             <p className="text-gray-700 ">Preview :</p>
-            <div
-              className="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3 aspect-[1] w-full mx-auto relative p-4"
-              dangerouslySetInnerHTML={{ __html: textContent }}
-            ></div>
+            <div className="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-3 aspect-[2/1] w-full overflow-y-auto mx-auto relative p-4">
+              {textContent.length > 0 ? (
+                <div
+                  className="prose max-w-full h-full overflow-y-auto"
+                  dangerouslySetInnerHTML={{ __html: textContent }}
+                ></div>
+              ) : (
+                <div className="text-gray-500  w-full h-full">
+                  <p className=" ">Markdown Text Example :</p>
+                  <p># Contoh Heading</p>
+                  <p>
+                    Ini adalah contoh teks markdown, gunakan pagar untuk
+                    mencetak judul, gunakan bintang untuk membuat teks
+                    **tebal**, gunakan - atau 1. 2. ... untuk membuat list
+                  </p>
+                  <p>## Contoh Sub Heading</p>
+                  <p>list</p>
+                  <p>- item</p>
+                  <p>- item</p>
+                  <p>list</p>
+                  <p>1. item</p>
+                  <p>2. item</p>
+                  <div className="mt-5">
+                    <p>Result :</p>
+                  </div>
+                  <div className="prose">
+                    <h1>Heading</h1>
+                    <p>
+                      Ini adalah contoh teks markdown, gunakan pagar untuk
+                      mencetak judul, gunakan bintang untuk membuat teks
+                      <b>tebal</b>, gunakan - atau 1. 2. ... untuk membuat list
+                    </p>
+                    <h2>Contoh Sub Heading</h2>
+                    <p>list</p>
+                    <ul>
+                      <li>item</li>
+                      <li>item</li>
+                    </ul>
+                    <p>list</p>
+                    <ol>
+                      <li>item</li>
+                      <li>item</li>
+                    </ol>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="flex justify-end items-center gap-5">
               {message && <p className="text-red-500 text-sm">{message}</p>}
               <button
@@ -121,7 +170,7 @@ export default function FormArticle({
               >
                 {isloading
                   ? "Loading..."
-                  : `${category.slug ? "Update" : "Create"}`}
+                  : `${article.slug ? "Update" : "Create"}`}
               </button>
             </div>
           </div>
