@@ -2,7 +2,6 @@
 
 import FormArticle from "@/components/Forms/FormArticle";
 import FormCategory from "@/components/Forms/FormCategory";
-import { Category } from "@/models/Category";
 import { postData } from "@/services/postDataClient";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function CreateArticle() {
   const { push } = useRouter();
-  const handleCreate = async (data: Category) => {
+  const handleCreate = async (data: any) => {
     const res = await postData("/api/articles", data);
     if (res.status === 200) {
       toast.success(res.data.message);
