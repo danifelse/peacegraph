@@ -1,8 +1,8 @@
 "use client";
 import SkeletonList from "@/components/Fragments/SkeletonList";
 import ModalDelete from "@/components/Modals/ModalDelete";
+import ArticesTable from "@/components/Tables/ArticlesTable";
 import { useAppSelector } from "@/lib/redux/hooks";
-import { Category } from "@/models/Category";
 import { deleteData } from "@/services/deleteDataClient";
 import { getData } from "@/services/getDataClient";
 import Link from "next/link";
@@ -14,14 +14,21 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Articles() {
   const modalState = useAppSelector((state) => state.modalDelete);
-  const [articles, setArticles] = useState<Category[]>([]);
+  const [articles, setArticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      getData("/api/articles")
+        .then((res) => setArticles(res.data.data))
+        .catch((err) => console.log(err));
+    }, 300);
+  }, []);
 
   const deleteArticle = async (slug: string) => {
-    console.log(`page product slug : ${slug}`);
     const res = await deleteData(`/api/articles/${slug}`);
     if (res.status === 200) {
       toast.success(res.data.message);
-      setArticles(articles.filter((category) => category.slug !== slug));
+      setArticles(articles.filter((article) => article.slug !== slug));
     } else {
       toast.error(res.response.data.error);
     }
@@ -57,7 +64,7 @@ export default function Articles() {
       <div className=" mt-3 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
         {articles.length > 0 ? (
           <div>
-            <div></div>
+            <ArticesTable articles={articles} />
           </div>
         ) : (
           <SkeletonList color="blue" />
