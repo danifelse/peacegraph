@@ -32,7 +32,7 @@ export default function ArticesTable({ articles }: { articles: any }) {
                 scope="row"
                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
-                {article.name}
+                {article.title}
               </th>
               <td className="px-6 py-4">{article.slug}</td>
               <td className="px-6 py-4">
