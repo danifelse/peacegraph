@@ -1,4 +1,4 @@
-import BannerProducts from "@/components/Fragments/BannerProducts";
+import BannerImage from "@/components/Fragments/BannerImage";
 import ProductsContainer from "@/components/Fragments/ProductsContainer";
 
 export default function Page({
@@ -11,7 +11,7 @@ export default function Page({
   console.log(params, searchParams);
   return (
     <div className="mt-20">
-      <BannerProducts />
+      <BannerImage slug="banner-products" />
       <ProductsContainer searchParams={searchParams} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"></div>
     </div>
