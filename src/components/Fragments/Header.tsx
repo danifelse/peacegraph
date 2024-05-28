@@ -6,10 +6,13 @@ import { ImageData } from "@/models/ImageData";
 import { useGetData } from "@/lib/swr/hooks";
 import SkeletonImages from "./SkeletonImages";
 import Skeleton from "./Skeleton";
+import { AOSInit } from "@/lib/aos/aos";
 
 export default function Header() {
   const imagesData = useGetData("api/images");
   const images: ImageData[] = imagesData?.data?.data;
+
+  AOSInit();
 
   if (!images) {
     return (
@@ -31,7 +34,10 @@ export default function Header() {
       />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 mb-20">
         <div className="lg:flex  items-center">
-          <div className="lg:w-1/2 w-full lg:px-3 mb-3 lg:mb-0">
+          <div
+            className="lg:w-1/2 w-full lg:px-3 mb-3 lg:mb-0"
+            data-aos="fade-right"
+          >
             <h1 className="lg:text-6xl text-2xl py-2 font-extrabold bg-gradient-to-r from-pink-600 to-blue-700 inline-block text-transparent bg-clip-text">
               {images[0]?.title}
             </h1>
@@ -73,7 +79,10 @@ export default function Header() {
               Hubungi Kami
             </button>
           </div>
-          <div className="lg:w-1/2 w-full rounded-xl lg:rounded-br-[25%] lg:rounded-tr-[15%] lg:rounded-bl-[50%] lg:rounded-tl-[20%] overflow-hidden lg:m-5">
+          <div
+            className="lg:w-1/2 w-full rounded-xl lg:rounded-br-[25%] lg:rounded-tr-[15%] lg:rounded-bl-[50%] lg:rounded-tl-[20%] overflow-hidden lg:m-5"
+            data-aos="zoom-in"
+          >
             <img
               src={images[0]?.imageUrl}
               alt=""
