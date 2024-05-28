@@ -2,12 +2,11 @@
 import { useGetData } from "@/lib/swr/hooks";
 import { ImageData } from "@/models/ImageData";
 import SkeletonImages from "./SkeletonImages";
-import Skeleton from "./Skeleton";
 
-export default function BannerProducts() {
+export default function BannerImage({ slug }: { slug: string }) {
   const imagesData = useGetData("api/images");
   const images: ImageData[] = imagesData?.data?.data;
-  const image = images?.filter((image) => image.slug === "banner-products");
+  const image = images?.filter((image) => image.slug === slug);
   console.log(image);
 
   if (!images) {
