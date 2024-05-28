@@ -3,12 +3,10 @@ import { IoChatbubblesOutline } from "react-icons/io5";
 import { LuScreenShare } from "react-icons/lu";
 import { MdAttachMoney } from "react-icons/md";
 import { TbTruckDelivery } from "react-icons/tb";
-import { AOSInit } from "@/lib/aos/aos";
-import { useEffect } from "react";
 
 export default function TimeLineOrder() {
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 mt-20 " data-aos="fade-up">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 mt-20 ">
       <h2 className="lg:text-3xl md:text-2xl text-xl font-extrabold text-gray-900 mb-5 md:text-center">
         Cetak Online Gak Pake Ribet !
       </h2>
