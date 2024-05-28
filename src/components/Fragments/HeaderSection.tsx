@@ -10,11 +10,18 @@ export default function HeaderSection() {
   const [isOpen, setIsOpen] = useState(1);
   return (
     <div className="container mt-10 py-10 mx-auto p-4 max-w-3xl">
-      <h2 className="lg:text-3xl text-2xl text-center font-extrabold text-gray-700 px-3">
+      <h2
+        className="lg:text-3xl text-2xl text-center font-extrabold text-gray-700 px-3"
+        data-aos="fade-up"
+      >
         Kenapa harus Peacegraph?
       </h2>
 
-      <div className="mb-4 mt-3 border-b border-gray-200 dark:border-gray-700">
+      <div
+        className="mb-4 mt-3 border-b border-gray-200 dark:border-gray-700"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
         <ul className="flex flex-wrap -mb-px text-sm font-medium text-center">
           <li className="me-2">
             <button
@@ -66,7 +73,11 @@ export default function HeaderSection() {
           </li>
         </ul>
       </div>
-      <div className="relative h-64 md:h-36">
+      <div
+        className="relative h-64 md:h-36"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
         <div
           className={`p-4 rounded-lg bg-purple-300 dark:bg-gray-800 transition-all duration-300 absolute top-0 left-0 ${
             isOpen === 1
