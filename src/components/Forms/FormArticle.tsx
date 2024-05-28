@@ -1,14 +1,15 @@
 "use client";
 
 import InputForm from "@/components/Elements/Input";
+import { Article } from "@/models/Articles";
 import { marked } from "marked";
 import { useEffect, useState } from "react";
 
 export default function FormArticle({
-  article = {} as any,
+  article = {} as Article,
   onSubmitForm,
 }: {
-  article?: any;
+  article?: Article;
   onSubmitForm: Function;
 }) {
   const [message, setMessage] = useState("");
@@ -100,6 +101,7 @@ export default function FormArticle({
             <textarea
               name="content"
               id="content"
+              defaultValue={textContent}
               className="w-full border-2 border-gray-700 rounded-lg p-2 h-80"
             ></textarea>
             <div className="flex justify-end">
