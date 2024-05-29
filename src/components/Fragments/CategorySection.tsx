@@ -49,7 +49,7 @@ export default function CategorySection({
         <div
           className="md:w-[60%] w-[70%] relative z-10"
           data-aos={`${index % 2 === 0 ? "fade-left" : "fade-right"}`}
-          data-aos-delay="500"
+          data-aos-duration="1000"
         >
           <ProductCarousel
             products={products.filter(
