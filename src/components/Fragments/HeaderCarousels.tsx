@@ -8,7 +8,7 @@ import { FaWhatsapp } from "react-icons/fa";
 export default function HeaderCarousels({ images }: { images: ImageData[] }) {
   const setting = {
     infinite: true,
-    autoplay: true,
+    // autoplay: true,
     speed: 2000,
     autoplaySpeed: 3000,
     slidesToShow: 1,
@@ -17,11 +17,11 @@ export default function HeaderCarousels({ images }: { images: ImageData[] }) {
     prevArrow: <PrevArrow />,
   };
   return (
-    <Slider {...setting} className="group  ">
+    <Slider {...setting} className="group ">
       {images.map((image) => (
         <div
           key={image.slug}
-          className=" w-fulll g:mb-20 md:mb-10 mb-6  bg-red-300 overflow-hidden p-0 lg:aspect-[3/1] md:aspect-[9/4] aspect-[9/5] h-full relative"
+          className=" w-fulll g:mb-20 md:mb-10 mb-6  bg-red-300 overflow-hidden p-0 lg:aspect-[3/1] md:aspect-[9/4] aspect-[9/5] h-full relative group"
         >
           <img
             src={image.imageUrl}
@@ -29,21 +29,21 @@ export default function HeaderCarousels({ images }: { images: ImageData[] }) {
             className=" h-full w-full object-center object-cover"
           />
           <div className="absolute top-0 right-0 text-end flex flex-col justify-end  lg:py-20 lg:px-32 md:py-20 md:px-20 p-4 lg:max-w-2xl md:max-w-md max-w-64">
-            <p className="text-white lg:text-2xl md:text-xl text-base font-light lg:mb-5 mb:2">
+            <p className="-translate-y-6 group-hover:translate-y-0 transition-all duration-500 opacity-50 group-hover:opacity-100  text-white lg:text-2xl md:text-xl text-base font-light lg:mb-5 mb:2">
               {image.subtitle}
             </p>
-            <h2 className="lg:text-6xl md:text-3xl text-2xl text-white font-extrabold lg:mb-3 mb:1 ">
+            <h2 className="scale-75 translate-x-20 group-hover:scale-100 group-hover:translate-x-0 transition-all duration-1000 lg:text-6xl md:text-3xl text-2xl text-white font-extrabold lg:mb-3 mb:1 ">
               {image.title}
             </h2>
 
-            <p className="text-white lg:text-2xl md:text-lg text-sm font-medium">
+            <p className="-translate-x-6 group-hover:translate-x-0 transition-all duration-1000 opacity-50 group-hover:opacity-100  text-white lg:text-2xl md:text-lg text-sm font-medium">
               {image.desc}
             </p>
             <div className=" flex justify-end">
               <a
                 href="https://wa.me/c/628118811647"
                 target="_blank"
-                className="bg-white bg-opacity-70 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline mt-5 flex items-center gap-2 "
+                className="bg-white bg-opacity-70 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline mt-5 flex items-center gap-2 translate-y-14 scale-0 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-1000"
               >
                 Order
                 <FaWhatsapp className="inline-block h-6 w-6" />
