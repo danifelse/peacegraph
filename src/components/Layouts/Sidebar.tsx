@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillProduct } from "react-icons/ai";
 import { BsImages } from "react-icons/bs";
-import { FaTags } from "react-icons/fa";
+import { FaTags, FaUserEdit } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi";
 import { MdDashboard, MdEditNote, MdMessage } from "react-icons/md";
 import { RiLogoutBoxLine } from "react-icons/ri";
@@ -89,6 +89,18 @@ export default function Sidebar() {
             >
               <MdEditNote className="w-6 h-6" />
               <span className="flex-1 ms-3 whitespace-nowrap">Articles</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/dashboard/profile"
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname.startsWith("/dashboard/profile") &&
+                "bg-gray-200 dark:bg-gray-700"
+              }`}
+            >
+              <FaUserEdit className="w-6 h-6" />
+              <span className="flex-1 ms-3 whitespace-nowrap">Profile</span>
             </Link>
           </li>
           <li>
