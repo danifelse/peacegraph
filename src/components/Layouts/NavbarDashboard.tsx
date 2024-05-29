@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 export default function NavbarDashboard() {
   const { data: session } = useSession();
+  console.log(session);
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   return (
@@ -50,7 +51,11 @@ export default function NavbarDashboard() {
               >
                 <img
                   className="w-8 h-8 rounded-full"
-                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  src={
+                    session?.user?.imageUrl
+                      ? session?.user?.imageUrl
+                      : "https://i.pinimg.com/564x/c4/34/d8/c434d8c366517ca20425bdc9ad8a32de.jpg"
+                  }
                   alt="user photo"
                 />
 
