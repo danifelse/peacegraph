@@ -49,8 +49,8 @@ const authOptions : NextAuthOptions = {
             if ("name" in token) {
                 session.user.name = token.name
             }
-            if ("imageUrl" in token) {
-                session.user.imageUrl = token.imageUrl
+            if ("image" in token) {
+                session.user.imageUrl = token.image
             }
             if ("role" in token) {
                 session.user.role = token.role
