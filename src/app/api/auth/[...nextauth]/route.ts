@@ -34,22 +34,29 @@ const authOptions : NextAuthOptions = {
     callbacks: {
         jwt: async ({token, account, user}:any) => {
             if (account?.provider === "credentials") {
-                token.email = user?.email;
+                token.id = user?.id
                 token.name = user?.name;
+                token.email = user?.email;
                 token.role = user?.role;
-                 
+                token.image = user?.imageUrl;
             }
             return token
         },
         async session({session, token}:any) {
-            if ("email" in token) {
-                session.user.email = token.email
+            if ("id" in token) {
+                session.user.id = token.id
             }
             if ("name" in token) {
                 session.user.name = token.name
             }
+            if ("imageUrl" in token) {
+                session.user.imageUrl = token.imageUrl
+            }
             if ("role" in token) {
                 session.user.role = token.role
+            }
+            if ("email" in token) {
+                session.user.email = token.email
             }
             return session
         },
