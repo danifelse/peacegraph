@@ -64,7 +64,7 @@ export default function User() {
             )}
             {session?.user?.role === "super-admin" && users.length > 0 && (
               <p className="text-white  mb-1">
-                {users.length} Users are available
+                {users.length} Users are registered
               </p>
             )}
             {session?.user?.role !== "super-admin" && (
