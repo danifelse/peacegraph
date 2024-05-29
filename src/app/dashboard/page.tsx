@@ -11,7 +11,6 @@ interface User {
 
 export default function Dashboard() {
   const { data: session } = useSession();
-  console.log(session);
   return (
     <div className="p-4 sm:ml-64">
       <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
@@ -38,22 +37,19 @@ export default function Dashboard() {
           </button>
         </div>
       </div>
-      <div className="grid lg:grid-cols-3 grid-cols-2 gap-4 mt-3">
-        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+      <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10">
+        <h2 className="text-3xl font-semibold text-gray-700">All Job Posted</h2>
+        <div className="grid lg:grid-cols-3 grid-cols-2 gap-4 mt-3">
           <div className="bg-blue-500 p-5 rounded-xl">
-            <p className="text-white text-7xl mb-3">3</p>
+            <p className="text-white text-7xl mb-3">7</p>
             <p className="text-white text-2xl">Images Uploaded</p>
           </div>
-        </div>
-        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
           <div className="bg-blue-500 p-5 rounded-xl">
-            <p className="text-white text-7xl mb-3">15</p>
+            <p className="text-white text-7xl mb-3">58</p>
             <p className="text-white text-2xl">Product Posted</p>
           </div>
-        </div>
-        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
           <div className="bg-blue-500 p-5 rounded-xl">
-            <p className="text-white text-7xl mb-3">5</p>
+            <p className="text-white text-7xl mb-3">6</p>
             <p className="text-white text-2xl">Article Posted</p>
           </div>
         </div>
