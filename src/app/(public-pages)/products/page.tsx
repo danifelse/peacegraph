@@ -8,7 +8,6 @@ export default function Page({
   params: { slug: string[] };
   searchParams: { [key: string]: string | undefined };
 }) {
-  console.log(params, searchParams);
   return (
     <div className="mt-20">
       <BannerImage slug="banner-products" />
