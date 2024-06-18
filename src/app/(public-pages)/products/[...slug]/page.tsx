@@ -1,17 +1,13 @@
 "use client";
 import CardProduct from "@/components/Cards/CardProduct";
 import BreadCrumb from "@/components/Fragments/BreadCrumb";
-import Skeleton from "@/components/Fragments/Skeleton";
+import OrderSection from "@/components/Fragments/OrderSection";
 import SkeletonCard from "@/components/Fragments/SkeletonCard";
 import SkeletonImages from "@/components/Fragments/SkeletonImages";
 import SkeletonList from "@/components/Fragments/SkeletonList";
 import { useGetData } from "@/lib/swr/hooks";
 import { Product } from "@/models/Product";
-import { Metadata } from "next";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { FaWhatsapp } from "react-icons/fa";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { useEffect } from "react";
 
 export default function DetailProducts({
   params,
@@ -24,7 +20,6 @@ export default function DetailProducts({
   const products: Product[] = productsData?.data?.data;
   let productsRel;
   let product: any;
-  console.log(products);
   if (products) {
     product = products.filter(
       (product: Product) => product.slug === productSlug
@@ -32,7 +27,6 @@ export default function DetailProducts({
 
     productsRel = products.filter((p) => p.category === product?.category);
   }
-  console.log(productsRel);
 
   useEffect(() => {
     if (product) {
@@ -154,7 +148,8 @@ export default function DetailProducts({
                   {product?.description}
                 </p>
               </div>
-              <div className="flex -mx-2 mb-4 mt-4">
+              <OrderSection product={product} />
+              {/* <div className="flex -mx-2 mb-4 mt-4 ">
                 <div className="w-1/2 px-2">
                   <a
                     href="https://wa.me/628118811647"
@@ -178,6 +173,11 @@ export default function DetailProducts({
                   </Link>
                 </div>
               </div>
+              <div className=" mb-4 mt-4 ">
+                <div>
+                  <FormOrder onSubmitForm={handleOrder} product={product} />
+                </div>
+              </div> */}
             </div>
           </div>
         </div>
