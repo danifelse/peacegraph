@@ -25,7 +25,7 @@ export default function BannerImage({ slug }: { slug: string }) {
           <img
             src={image[0]?.imageUrl}
             alt="banner-products"
-            className="w-full"
+            className="w-full object-cover object-center h-full"
           />
           <div className="absolute top-0 left-0 flex flex-col lg:py-12 lg:px-20 md:py-12 md:px-20 p-4 lg:max-w-2xl md:max-w-md max-w-64">
             <p className="-translate-y-6 group-hover:translate-y-0 transition-all duration-1000 opacity-50 group-hover:opacity-100 text-white lg:text-2xl md:text-xl text-base font-light lg:mb-5 mb:2">
